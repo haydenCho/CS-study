@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>운영체제 기술 면접 질문 모음 (통합본)</title>
+<style>
+:root { --ink:#111; --sub:#555; --line:#e5e5e5; --accent:#0b57d0; --star:#e8710a; }
+* { box-sizing:border-box; }
+body { font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic',sans-serif;
+  color:var(--ink); line-height:1.75; max-width:860px; margin:0 auto; padding:48px 24px 96px; background:#fff; }
+h1 { font-size:1.9rem; border-bottom:3px solid var(--ink); padding-bottom:14px; margin:0 0 8px; }
+blockquote { margin:0 0 8px; padding:10px 16px; border-left:4px solid var(--line); color:var(--sub); font-size:.92rem; }
+blockquote p { margin:2px 0; }
+h2 { font-size:1.15rem; margin:44px 0 12px; padding:12px 16px; background:#f6f8fa; border-left:5px solid var(--accent); border-radius:0 6px 6px 0; }
+h2 .stars { color:var(--star); font-size:.95rem; margin-left:8px; white-space:nowrap; }
+strong { color:#000; }
+p { margin:8px 0 14px; }
+hr { border:none; border-top:1px solid var(--line); margin:28px 0; }
+.answer-label, p > strong:only-child { display:inline-block; }
+.topnav { font-size:.9rem; margin-bottom:28px; }
+.topnav a { color:var(--accent); text-decoration:none; margin-right:14px; }
+.topnav a:hover { text-decoration:underline; }
+code { background:#f2f2f2; padding:1px 5px; border-radius:4px; font-size:.9em; }
+
+.toc { margin:24px 0 48px; }
+.toc table { width:100%; border-collapse:collapse; }
+.toc th { text-align:left; font-size:.95rem; padding:12px 10px; border-top:2px solid #111; border-bottom:1.5px solid #111; }
+.toc td { padding:14px 10px; border-bottom:1px solid #e5e5e5; }
+.toc a { color:#111; font-weight:600; text-decoration:underline; text-underline-offset:3px; }
+.toc a:hover { color:#0b57d0; }
+.cnt { color:#888; font-size:.82rem; margin-left:10px; }
+.hot { background:#fde8e8; color:#c0392b; font-size:.75rem; padding:2px 8px; border-radius:10px; margin-left:8px; }
+.unit { margin-top:72px; border-top:4px solid #111; padding-top:8px; }
+.backtop { font-size:.9rem; margin:16px 0 0; }
+.backtop a { color:#0b57d0; text-decoration:none; }
+</style>
+</head>
+<body>
+
+<div id="top"></div>
+<h1>운영체제 기술 면접 질문 모음 (통합본)</h1>
+<blockquote><p>2026.07.18 | 전공자·정보처리기사 수준 | 인프라 직무 대비 | 총 97문항 · ★★★ 최빈출 / ★★ 자주 출제 / ★ 기본</p>
+<p>이 파일 하나로 모든 단원이 포함되어 있어 어디로 옮겨도 동작합니다.</p></blockquote>
+<div class="toc"><table><thead><tr><th>단원</th><th></th></tr></thead><tbody><tr><td><a href="#unit01-os-overview">운영체제 개요와 구조</a></td><td><span class="cnt">9문항</span></td></tr>
+<tr><td><a href="#unit02-process-thread">프로세스와 스레드</a> <span class="hot">최빈출</span></td><td><span class="cnt">16문항</span></td></tr>
+<tr><td><a href="#unit03-cpu-scheduling">CPU 스케줄링</a> <span class="hot">최빈출</span></td><td><span class="cnt">12문항</span></td></tr>
+<tr><td><a href="#unit04-synchronization">프로세스 동기화</a> <span class="hot">최빈출</span></td><td><span class="cnt">15문항</span></td></tr>
+<tr><td><a href="#unit05-deadlock">교착상태 (Deadlock)</a></td><td><span class="cnt">8문항</span></td></tr>
+<tr><td><a href="#unit06-memory-management">메모리 관리</a></td><td><span class="cnt">11문항</span></td></tr>
+<tr><td><a href="#unit07-virtual-memory">가상 메모리</a> <span class="hot">최빈출</span></td><td><span class="cnt">15문항</span></td></tr>
+<tr><td><a href="#unit08-filesystem-io">파일 시스템과 I/O</a></td><td><span class="cnt">11문항</span></td></tr>
+</tbody></table></div>
+<section class="unit" id="unit01-os-overview">
+<h1>1단원. 운영체제 개요와 구조</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무(클라우드·시스템·네트워크·보안) 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 운영체제란 무엇이며, 핵심 역할 3가지를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+운영체제는 하드웨어와 응용 프로그램 사이에서 자원을 관리하는 시스템 소프트웨어입니다. 핵심 역할은 첫째 <strong>자원 관리자</strong>로서 CPU, 메모리, 디스크, I/O 장치를 여러 프로세스에 효율적·공정하게 배분합니다. 둘째 <strong>추상화 제공자</strong>로서 파일, 프로세스, 가상 메모리 같은 추상화를 통해 응용 프로그램이 하드웨어의 복잡함을 몰라도 되게 합니다. 셋째 <strong>보호와 격리</strong>로서 프로세스 간 메모리 침범을 막고, 사용자 모드/커널 모드를 구분해 시스템을 보호합니다.</p>
+<p><strong>관련 개념</strong>
+자원 관리(CPU·메모리·I/O), 추상화(파일, 프로세스, 소켓), 커널, 시스템 콜</p>
+<hr />
+<h2>Q2. 커널 모드와 사용자 모드를 나누는 이유는 무엇인가요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+시스템 보호를 위해서입니다. 하드웨어 접근, 메모리 관리 같은 특권 명령을 아무 프로그램이나 실행하면 시스템 전체가 손상될 수 있으므로, CPU의 모드 비트로 권한을 구분합니다. 사용자 프로그램은 사용자 모드에서 실행되다가 특권 작업이 필요하면 <strong>시스템 콜</strong>을 통해 커널 모드로 전환(트랩)하여 커널이 대신 수행합니다. 이중 모드 덕분에 악의적이거나 버그 있는 프로그램이 다른 프로세스나 커널을 직접 훼손하는 것을 막을 수 있습니다.</p>
+<p><strong>관련 개념</strong>
+이중 모드(dual mode), 특권 명령, 모드 비트, 트랩(trap), 시스템 콜</p>
+<hr />
+<h2>Q3. 시스템 콜(System Call)이란 무엇이고, 호출 과정은 어떻게 되나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+시스템 콜은 사용자 프로세스가 커널의 서비스를 요청하는 공식 인터페이스입니다. 과정은 ① 응용 프로그램이 라이브러리 함수(예: glibc의 read())를 호출 → ② 시스템 콜 번호와 인자를 레지스터에 담고 트랩 명령(x86의 syscall) 실행 → ③ CPU가 커널 모드로 전환되어 시스템 콜 핸들러가 번호에 해당하는 커널 함수 수행 → ④ 결과를 반환하며 사용자 모드로 복귀합니다. 모드 전환과 컨텍스트 저장 비용이 있어 일반 함수 호출보다 훨씬 비쌉니다.</p>
+<p><strong>관련 개념</strong>
+트랩, 시스템 콜 테이블, 모드 전환 오버헤드, 대표 시스템 콜(fork, exec, read, write, open)</p>
+<hr />
+<h2>Q4. 인터럽트란 무엇이며, 폴링과 비교해 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+인터럽트는 I/O 완료, 타이머 만료 등 이벤트 발생 시 하드웨어가 CPU에게 비동기적으로 알리는 메커니즘입니다. CPU는 현재 작업을 중단하고 인터럽트 벡터 테이블을 참조해 해당 핸들러(ISR)를 실행한 뒤 원래 작업으로 복귀합니다. 반면 <strong>폴링</strong>은 CPU가 주기적으로 장치 상태를 검사하는 방식으로, 이벤트가 드물면 CPU를 낭비합니다. 인터럽트는 CPU 낭비가 없지만 컨텍스트 저장/복원 오버헤드가 있어, 고속 네트워크 카드처럼 이벤트가 매우 잦은 환경에서는 오히려 폴링을 혼용(리눅스 NAPI)하기도 합니다.</p>
+<p><strong>관련 개념</strong>
+하드웨어/소프트웨어 인터럽트, 인터럽트 벡터, ISR, 폴링, NAPI</p>
+<hr />
+<h2>Q5. 커널 구조에서 모놀리식 커널과 마이크로커널의 차이를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>모놀리식 커널</strong>은 파일시스템, 드라이버, 네트워크 스택 등 대부분의 OS 기능이 하나의 커널 주소 공간에서 동작합니다. 구성 요소 간 함수 호출로 통신해 성능이 좋지만, 한 모듈의 결함이 커널 전체를 다운시킬 수 있습니다(리눅스, 전통 유닉스). <strong>마이크로커널</strong>은 IPC, 스케줄링, 최소한의 메모리 관리만 커널에 두고 나머지는 사용자 공간 서버로 분리합니다. 안정성과 보안이 좋지만 IPC로 인한 성능 저하가 있습니다(QNX, Minix, L4). 리눅스는 모놀리식이지만 로더블 커널 모듈(LKM)로 확장성을 보완합니다.</p>
+<p><strong>관련 개념</strong>
+모놀리식/마이크로커널/하이브리드(Windows NT, macOS XNU), LKM, IPC 오버헤드</p>
+<hr />
+<h2>Q6. 멀티프로그래밍, 멀티태스킹(시분할), 멀티프로세싱의 차이는 무엇인가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>멀티프로그래밍</strong>은 메모리에 여러 프로그램을 올려두고, 한 프로그램이 I/O 대기 중일 때 다른 프로그램에 CPU를 주어 이용률을 높이는 개념입니다. <strong>멀티태스킹(시분할)</strong>은 여기에 타이머 인터럽트 기반의 짧은 타임 슬라이스를 더해 여러 작업이 동시에 실행되는 것처럼 보이게 하는 방식으로, 응답성이 목적입니다. <strong>멀티프로세싱</strong>은 물리적으로 CPU(코어)가 여러 개인 시스템에서 실제로 병렬 실행하는 것을 말합니다. 정리하면 각각 'CPU 이용률', '응답성', '물리적 병렬성'에 초점이 있습니다.</p>
+<p><strong>관련 개념</strong>
+CPU 이용률, 타임 슬라이스, 동시성(concurrency) vs 병렬성(parallelism), SMP</p>
+<hr />
+<h2>Q7. 부팅 과정을 전원 인가부터 로그인까지 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+① 전원 인가 시 CPU가 펌웨어(BIOS/UEFI)를 실행하고 POST로 하드웨어를 점검합니다. ② 펌웨어가 부트 디바이스에서 부트로더(GRUB 등)를 메모리에 적재합니다. ③ 부트로더가 커널 이미지(vmlinuz)와 initramfs를 메모리에 올리고 커널에 제어를 넘깁니다. ④ 커널이 하드웨어 초기화, 드라이버 적재, 루트 파일시스템 마운트를 수행합니다. ⑤ 최초 사용자 프로세스인 init(현대 리눅스는 systemd, PID 1)이 실행되어 서비스들을 기동하고 로그인 프롬프트를 띄웁니다. 인프라 직무에서는 부팅 실패 시 어느 단계 문제인지 구분하는 능력이 중요합니다.</p>
+<p><strong>관련 개념</strong>
+BIOS vs UEFI, POST, GRUB, initramfs, systemd(PID 1), 런레벨/타깃</p>
+<hr />
+<h2>Q8. 라이브러리 함수 호출과 시스템 콜의 차이는 무엇인가요? <span class="stars">★</span></h2>
+<p><strong>답안</strong>
+라이브러리 함수는 사용자 공간에서 실행되는 코드로 모드 전환이 없어 빠릅니다. 시스템 콜은 커널 모드로의 전환이 필요한 커널 서비스 요청입니다. 다만 둘은 배타적이지 않습니다. 예를 들어 printf()는 라이브러리 함수지만 내부적으로 write() 시스템 콜을 사용하며, 라이브러리가 버퍼링으로 시스템 콜 횟수를 줄여 성능을 높입니다. strcpy()처럼 커널 도움 없이 끝나는 함수는 시스템 콜을 전혀 쓰지 않습니다.</p>
+<p><strong>관련 개념</strong>
+glibc, 사용자 공간 버퍼링, strace(시스템 콜 추적), 모드 전환 비용</p>
+<hr />
+<h2>Q9. 가상화와 컨테이너에서 OS는 어떤 역할을 하나요? (인프라 연계) <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>가상 머신</strong>은 하이퍼바이저가 하드웨어를 가상화해 게스트마다 독립된 커널을 실행합니다. Type 1(베어메탈: ESXi, Xen, KVM)과 Type 2(호스트형: VirtualBox)로 나뉩니다. <strong>컨테이너</strong>는 커널을 새로 띄우지 않고 호스트 커널의 기능을 이용해 프로세스를 격리합니다. 리눅스의 <strong>네임스페이스</strong>(PID, 네트워크, 마운트 등 가시성 격리)와 <strong>cgroups</strong>(CPU·메모리 등 자원 사용량 제한)가 핵심입니다. 그래서 컨테이너는 가볍고 빠르지만 호스트와 커널을 공유하므로 격리 수준은 VM보다 낮습니다.</p>
+<p><strong>관련 개념</strong>
+하이퍼바이저 Type 1/2, KVM, 네임스페이스, cgroups, Docker, 커널 공유의 보안 함의</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit02-process-thread">
+<h1>2단원. 프로세스와 스레드 (최빈출 단원)</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 프로세스와 프로그램의 차이는 무엇인가요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+프로그램은 디스크에 저장된 정적인 실행 파일(코드와 데이터)이고, 프로세스는 그 프로그램이 메모리에 적재되어 실행 중인 동적인 인스턴스입니다. 프로세스는 코드뿐 아니라 PC(프로그램 카운터), 레지스터, 스택, 힙, 열린 파일 목록 등 실행 상태를 가지며, 하나의 프로그램에서 여러 프로세스가 동시에 생성될 수 있습니다.</p>
+<p><strong>관련 개념</strong>
+실행 파일(ELF), 프로세스 이미지, 주소 공간, PCB</p>
+<hr />
+<h2>Q2. 프로세스의 메모리 구조(주소 공간)를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+낮은 주소부터 <strong>코드(텍스트) 영역</strong>(기계어 명령, 읽기 전용), <strong>데이터 영역</strong>(전역·정적 변수, 초기화된 data와 초기화되지 않은 BSS), <strong>힙</strong>(malloc 등 동적 할당, 위로 성장), <strong>스택</strong>(지역 변수·함수 호출 프레임·복귀 주소, 아래로 성장)으로 구성됩니다. 스택과 힙이 서로를 향해 자라다 충돌하면 스택 오버플로우/메모리 부족이 발생합니다. 각 프로세스는 독립된 가상 주소 공간을 가져 서로의 메모리를 직접 침범할 수 없습니다.</p>
+<p><strong>관련 개념</strong>
+Text/Data/BSS/Heap/Stack, 가상 주소 공간, 스택 오버플로우, ASLR(보안 연계)</p>
+<hr />
+<h2>Q3. 프로세스와 스레드의 차이를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+프로세스는 자원 소유의 단위, 스레드는 CPU 스케줄링(실행)의 단위입니다. 프로세스는 독립된 주소 공간과 자원을 가지지만, 한 프로세스 안의 스레드들은 코드·데이터·힙·열린 파일을 <strong>공유</strong>하고 스택과 레지스터(PC 포함)만 각자 가집니다. 그래서 스레드는 생성·전환 비용이 싸고 통신이 쉽지만, 공유 메모리로 인한 동기화 문제가 생기고 한 스레드의 오류가 프로세스 전체를 죽일 수 있습니다. 프로세스는 격리성이 좋은 대신 생성·전환·IPC 비용이 큽니다.</p>
+<p><strong>관련 개념</strong>
+자원 공유 범위, 스택/레지스터 독립, 동기화 필요성, 격리성 vs 효율성</p>
+<hr />
+<h2>Q4. PCB(Process Control Block)에는 어떤 정보가 들어있나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+PCB는 커널이 프로세스를 관리하기 위해 유지하는 자료구조로, 프로세스 상태(실행·준비·대기 등), PID, 프로그램 카운터와 레지스터 값, CPU 스케줄링 정보(우선순위 등), 메모리 관리 정보(페이지 테이블 포인터), 열린 파일 목록, 계정 및 I/O 상태 정보가 저장됩니다. 컨텍스트 스위칭 시 현재 프로세스의 실행 문맥을 PCB에 저장하고, 다음 프로세스의 PCB에서 문맥을 복원합니다. 리눅스에서는 task_struct가 이에 해당합니다.</p>
+<p><strong>관련 개념</strong>
+task_struct, 컨텍스트 스위칭, 프로세스 테이블</p>
+<hr />
+<h2>Q5. 프로세스 상태 전이도를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>생성(new) → 준비(ready) → 실행(running) → 종료(terminated)</strong>가 기본 흐름이고, 실행 중 I/O 등 이벤트를 기다리면 <strong>대기(waiting/blocked)</strong>로 갔다가 완료되면 준비로 돌아갑니다. 핵심 전이는 ① 준비→실행: 스케줄러의 디스패치, ② 실행→준비: 타임 슬라이스 만료나 선점, ③ 실행→대기: I/O 요청 등 블로킹, ④ 대기→준비: 이벤트 완료입니다. 대기 상태에서 곧바로 실행으로 갈 수 없다는 점(반드시 준비를 거침)이 자주 나오는 포인트입니다. 메모리 부족 시 프로세스를 디스크로 내리는 중단(suspended) 상태를 추가하기도 합니다.</p>
+<p><strong>관련 개념</strong>
+디스패치, 선점, 블로킹, suspended ready/blocked, 중기 스케줄러</p>
+<hr />
+<h2>Q6. 컨텍스트 스위칭이란 무엇이고, 왜 비용이 발생하나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+CPU를 한 프로세스(스레드)에서 다른 프로세스로 넘길 때 현재 실행 문맥(레지스터, PC 등)을 PCB에 저장하고 다음 프로세스의 문맥을 복원하는 작업입니다. 비용은 ① 레지스터 저장/복원과 커널 모드 전환 같은 직접 비용, ② 캐시·TLB가 무효화되어 이후 메모리 접근이 느려지는 간접 비용으로 나뉘며, 실제로는 간접 비용이 더 큽니다. 같은 프로세스 내 스레드 간 전환은 주소 공간이 같아 TLB 플러시가 필요 없어 프로세스 간 전환보다 쌉니다.</p>
+<p><strong>관련 개념</strong>
+PCB 저장/복원, TLB 플러시, 캐시 오염, 스레드 전환 vs 프로세스 전환</p>
+<hr />
+<h2>Q7. fork()와 exec()의 차이와, 자주 함께 쓰이는 이유를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+fork()는 호출한 프로세스를 복제해 자식 프로세스를 만듭니다. 자식은 부모의 주소 공간 복사본을 가지며, 반환값(부모=자식 PID, 자식=0)으로 구분합니다. exec()는 현재 프로세스의 주소 공간을 새 프로그램으로 교체합니다(PID 유지). 쉘이 명령을 실행할 때 fork()로 자식을 만들고 자식에서 exec()로 명령 프로그램을 실행하는 fork-exec 패턴이 표준입니다. fork()의 복사 비용은 <strong>Copy-on-Write</strong>로 최적화되어, 실제로는 페이지 테이블만 복사하고 쓰기가 발생할 때만 해당 페이지를 복사합니다.</p>
+<p><strong>관련 개념</strong>
+fork-exec 패턴, Copy-on-Write(COW), wait(), PID</p>
+<hr />
+<h2>Q8. 좀비 프로세스와 고아 프로세스의 차이는 무엇이며, 좀비는 어떻게 처리하나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>좀비 프로세스</strong>는 자식이 종료되었지만 부모가 wait()로 종료 상태를 회수하지 않아 프로세스 테이블 항목만 남은 상태입니다. 메모리는 거의 안 쓰지만 PID를 점유하므로 대량 발생 시 PID 고갈이 될 수 있습니다. 부모가 wait()/waitpid()를 호출하거나, SIGCHLD 핸들러에서 회수하도록 하고, 이미 쌓였다면 부모를 종료시켜 init(systemd)이 입양 후 회수하게 합니다. <strong>고아 프로세스</strong>는 부모가 먼저 죽은 자식으로, init(PID 1)이 입양하여 정상 관리되므로 좀비만큼 문제가 되지 않습니다.</p>
+<p><strong>관련 개념</strong>
+wait()/waitpid(), SIGCHLD, init 입양, defunct(ps에서 Z 상태)</p>
+<hr />
+<h2>Q9. IPC(프로세스 간 통신) 방식들을 비교 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+크게 <strong>공유 메모리</strong>와 <strong>메시지 전달</strong>로 나뉩니다. 공유 메모리는 두 프로세스가 같은 메모리 영역을 매핑해 통신하며, 커널 개입 없이 읽고 써서 가장 빠르지만 동기화를 직접 해야 합니다. 메시지 전달은 커널을 경유해 안전하지만 시스템 콜 오버헤드가 있습니다. 구체적으로는 파이프(부모-자식 단방향), 네임드 파이프(FIFO, 무관한 프로세스 간), 메시지 큐, 시그널(간단한 이벤트 통지), 소켓(네트워크 포함, 다른 호스트 간 가능), 공유 메모리+세마포어 조합 등이 있습니다. 같은 호스트 대용량 데이터는 공유 메모리, 원격 통신은 소켓이 정석입니다.</p>
+<p><strong>관련 개념</strong>
+파이프/FIFO, 메시지 큐, 공유 메모리(shm), 시그널, 유닉스 도메인 소켓, TCP 소켓</p>
+<hr />
+<h2>Q10. 사용자 수준 스레드와 커널 수준 스레드의 차이를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>사용자 수준 스레드</strong>는 커널이 모르는 채 사용자 공간 라이브러리가 스케줄링합니다. 생성·전환이 매우 싸지만, 한 스레드가 블로킹 시스템 콜을 하면 프로세스 전체가 블록되고 멀티코어 병렬 실행이 안 됩니다. <strong>커널 수준 스레드</strong>는 커널이 직접 관리해 개별 블로킹과 멀티코어 활용이 가능하지만 생성·전환에 시스템 콜이 필요해 상대적으로 무겁습니다. 매핑 모델로 다대일, 일대일(리눅스 NPTL, 현대 표준), 다대다가 있으며, Go의 고루틴은 다대다(M:N)를 런타임에서 구현한 사례입니다.</p>
+<p><strong>관련 개념</strong>
+다대일/일대일/다대다 모델, NPTL, 고루틴, 그린 스레드</p>
+<hr />
+<h2>Q11. 멀티스레드 대신 멀티프로세스를 쓰는 게 나은 경우는 언제인가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+격리성과 안정성이 중요할 때입니다. 멀티프로세스는 한 프로세스가 죽어도 다른 프로세스에 영향이 없어, 크롬 브라우저(탭별 프로세스), nginx(워커 프로세스), 오래된 아파치 prefork가 이 방식을 씁니다. 보안상 권한 분리가 필요하거나(권한 낮춘 워커), 파이썬처럼 GIL 때문에 스레드로 CPU 병렬화가 안 되는 경우도 멀티프로세스가 답입니다. 반대로 데이터 공유가 잦고 생성·전환 비용이 민감하면 멀티스레드가 유리합니다.</p>
+<p><strong>관련 개념</strong>
+장애 격리, 권한 분리, GIL, nginx 워커 모델, 크롬 프로세스 모델</p>
+<hr />
+<h2>Q12. 스레드 풀은 왜 사용하나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+요청마다 스레드를 생성/파괴하면 비용이 크고, 요청 폭주 시 스레드가 무한정 늘어나 메모리 고갈과 과도한 컨텍스트 스위칭이 발생합니다. 스레드 풀은 미리 일정 수의 스레드를 만들어 두고 작업 큐에서 작업을 꺼내 처리하게 하여, ① 생성 비용 제거 ② 동시 스레드 수 상한으로 시스템 보호 ③ 응답 시간 안정화를 달성합니다. 풀 크기는 CPU 바운드 작업이면 코어 수 내외, I/O 바운드 작업이면 그보다 크게 잡는 것이 일반적입니다.</p>
+<p><strong>관련 개념</strong>
+작업 큐, 스레드 생성 비용, CPU 바운드 vs I/O 바운드, 백프레셔</p>
+<hr />
+<h2>Q13. CPU 바운드 프로세스와 I/O 바운드 프로세스의 차이는? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+CPU 바운드는 계산 위주로 CPU 버스트가 길고(인코딩, 과학 계산), I/O 바운드는 I/O 대기가 대부분이며 CPU 버스트가 짧습니다(웹 서버, DB 클라이언트). 스케줄러는 응답성을 위해 I/O 바운드에 우선권을 주는 경향이 있습니다. I/O 바운드가 CPU를 짧게 쓰고 빨리 I/O를 걸어야 장치 이용률도 올라가기 때문입니다. 서버 튜닝 관점에서 CPU 바운드는 코어 수 증설·병렬화, I/O 바운드는 비동기 I/O·캐싱이 처방입니다.</p>
+<p><strong>관련 개념</strong>
+CPU 버스트/I/O 버스트, 다단계 피드백 큐의 우선순위 부여, 비동기 I/O</p>
+<hr />
+<h2>Q14. 데몬 프로세스란 무엇인가요? <span class="stars">★</span></h2>
+<p><strong>답안</strong>
+터미널과 분리되어 백그라운드에서 상주하며 서비스를 제공하는 프로세스입니다(sshd, nginx, crond 등). 전통적으로 fork 후 부모 종료, setsid()로 새 세션 생성(제어 터미널 분리), 작업 디렉터리 변경, 표준 입출력 리다이렉트 과정을 거쳐 만들어집니다. 현대 리눅스에서는 systemd가 서비스 유닛으로 데몬의 기동·재시작·로깅을 관리합니다.</p>
+<p><strong>관련 개념</strong>
+setsid(), 세션과 프로세스 그룹, systemd 서비스 유닛, nohup</p>
+<hr />
+<h2>Q15. 시그널(Signal)이란 무엇이고 어떻게 처리되나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+시그널은 프로세스에게 비동기적으로 이벤트를 알리는 소프트웨어 인터럽트입니다. SIGTERM(정상 종료 요청), SIGKILL(강제 종료, 무시·처리 불가), SIGINT(Ctrl+C), SIGSEGV(잘못된 메모리 접근), SIGCHLD(자식 종료) 등이 있습니다. 프로세스는 시그널을 기본 동작으로 처리하거나, 핸들러를 등록해 직접 처리하거나, 무시할 수 있습니다(SIGKILL/SIGSTOP 제외). 운영 관점에서 kill -15로 정상 종료를 시도한 뒤 안 되면 kill -9를 쓰는 것이 안전한 순서입니다.</p>
+<p><strong>관련 개념</strong>
+kill 명령, 시그널 핸들러, SIGKILL vs SIGTERM, graceful shutdown</p>
+<hr />
+<h2>Q16. 프로세스 우선순위(nice 값)는 무엇인가요? (리눅스 운영 연계) <span class="stars">★</span></h2>
+<p><strong>답안</strong>
+리눅스에서 nice 값은 -20(높은 우선순위)부터 19(낮은 우선순위)까지이며, 기본값은 0입니다. CFS 스케줄러는 nice 값에 따라 CPU 시간 배분 가중치를 달리합니다. nice/renice 명령으로 조정하며, 우선순위를 높이는 것(-값)은 루트 권한이 필요합니다. 배치성 작업을 nice 19로 돌려 서비스 프로세스에 영향을 줄이는 식으로 운영에 활용합니다. 이와 별개로 실시간 정책(SCHED_FIFO/RR)은 일반 프로세스보다 항상 우선합니다.</p>
+<p><strong>관련 개념</strong>
+nice/renice, CFS 가중치, 실시간 스케줄링 정책, ionice</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit03-cpu-scheduling">
+<h1>3단원. CPU 스케줄링</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. CPU 스케줄링이 필요한 이유와 평가 기준을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+CPU는 한 번에 하나의 작업만 실행할 수 있는데 준비 상태의 프로세스는 여러 개이므로, 어떤 프로세스에 CPU를 줄지 결정해야 합니다. 목표는 CPU 이용률과 처리량(throughput)의 극대화, 그리고 총처리 시간(turnaround time), 대기 시간(waiting time), 응답 시간(response time)의 최소화입니다. 시스템 성격에 따라 우선하는 지표가 다릅니다. 배치 시스템은 처리량, 대화형 시스템은 응답 시간, 실시간 시스템은 마감 시간(deadline) 준수가 핵심입니다.</p>
+<p><strong>관련 개념</strong>
+처리량, 총처리/대기/응답 시간, 공정성, 기아(starvation)</p>
+<hr />
+<h2>Q2. 선점형과 비선점형 스케줄링의 차이는 무엇인가요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>비선점형</strong>은 프로세스가 CPU를 자발적으로 놓을 때(종료, I/O 대기)까지 빼앗지 않는 방식으로, 구현이 단순하고 컨텍스트 스위칭이 적지만 긴 작업이 CPU를 독점하면 응답성이 나빠집니다(FCFS, SJF, HRN). <strong>선점형</strong>은 타이머 인터럽트나 더 높은 우선순위 프로세스의 도착 시 CPU를 강제로 회수하는 방식으로, 응답성이 좋아 현대 범용 OS는 모두 선점형입니다(RR, SRTF, 선점 우선순위, MLFQ). 대신 컨텍스트 스위칭 오버헤드와 공유 데이터 동기화 문제가 따릅니다.</p>
+<p><strong>관련 개념</strong>
+타이머 인터럽트, 디스패처, 컨텍스트 스위칭 오버헤드</p>
+<hr />
+<h2>Q3. FCFS 스케줄링의 동작과 문제점을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+먼저 도착한 순서대로 CPU를 주는 비선점 방식입니다. 구현이 큐 하나로 단순하고 기아가 없지만, <strong>호위 효과(convoy effect)</strong>가 문제입니다. CPU 버스트가 긴 프로세스 뒤에 짧은 프로세스들이 줄줄이 대기하여 평균 대기 시간이 크게 늘어나고, I/O 장치들도 놀게 됩니다. 대화형 시스템에는 부적합합니다.</p>
+<p><strong>관련 개념</strong>
+호위 효과, 평균 대기 시간 계산(간트 차트), 비선점</p>
+<hr />
+<h2>Q4. SJF와 SRTF를 설명하고, 실제로 쓰기 어려운 이유를 말해보세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>SJF</strong>는 다음 CPU 버스트가 가장 짧은 프로세스를 먼저 실행하는 비선점 방식으로, 평균 대기 시간이 이론적으로 최소입니다. <strong>SRTF</strong>는 그 선점형 버전으로, 남은 실행 시간이 더 짧은 프로세스가 도착하면 선점합니다. 실제로 쓰기 어려운 이유는 ① 다음 CPU 버스트 길이를 미리 알 수 없어 과거 버스트의 지수 평균으로 예측할 수밖에 없고, ② 긴 작업이 계속 밀려 <strong>기아</strong>가 발생할 수 있기 때문입니다. 기아는 에이징(aging)으로 완화합니다.</p>
+<p><strong>관련 개념</strong>
+지수 평균 예측, 기아, 에이징, 최적성 증명</p>
+<hr />
+<h2>Q5. 라운드 로빈(RR) 스케줄링과 타임 퀀텀 크기의 트레이드오프를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+준비 큐를 원형으로 돌며 각 프로세스에 동일한 타임 퀀텀만큼 CPU를 주고, 퀀텀이 끝나면 큐 뒤로 보내는 선점형 방식입니다. 모든 프로세스가 공평하게 CPU를 받아 응답 시간이 보장되므로 시분할 시스템의 기본입니다. 퀀텀이 <strong>너무 크면</strong> FCFS와 다를 바 없어 응답성이 나빠지고, <strong>너무 작으면</strong> 컨텍스트 스위칭 오버헤드 비중이 커져 처리량이 떨어집니다. 일반적으로 CPU 버스트의 80% 정도가 퀀텀 안에 끝나도록 수 ms~수십 ms로 설정합니다.</p>
+<p><strong>관련 개념</strong>
+타임 퀀텀, 응답 시간 상한, 컨텍스트 스위칭 비용</p>
+<hr />
+<h2>Q6. 우선순위 스케줄링의 기아 문제와 해결책은? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+우선순위가 높은 프로세스부터 실행하면, 높은 우선순위 프로세스가 계속 유입될 경우 낮은 우선순위 프로세스가 무한정 대기하는 <strong>기아</strong>가 발생합니다. 해결책은 <strong>에이징</strong>으로, 대기 시간이 길어질수록 우선순위를 점진적으로 올려 언젠가는 실행되도록 보장하는 것입니다. HRN(Highest Response Ratio Next)도 (대기시간+서비스시간)/서비스시간으로 우선순위를 계산해 기아를 완화하는 기법입니다.</p>
+<p><strong>관련 개념</strong>
+기아, 에이징, HRN 공식, 정적/동적 우선순위</p>
+<hr />
+<h2>Q7. 다단계 큐와 다단계 피드백 큐(MLFQ)의 차이를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>다단계 큐</strong>는 프로세스를 성격별(시스템, 대화형, 배치 등)로 여러 큐에 고정 배정하고 큐마다 다른 스케줄링을 적용합니다. 큐 간 이동이 없어 유연성이 떨어집니다. <strong>다단계 피드백 큐</strong>는 큐 간 이동을 허용합니다. 새 프로세스는 최상위 큐에서 시작하고, 퀀텀을 다 쓰면(CPU 바운드로 판단) 아래 큐로 강등되며, I/O 바운드 프로세스는 퀀텀을 다 쓰기 전에 반납하므로 상위 큐에 남아 우선 처리됩니다. 과거 실행 행태로 프로세스 성격을 학습하는 셈이며, 기아 방지를 위해 주기적으로 전체를 최상위 큐로 올리는 부스팅을 씁니다.</p>
+<p><strong>관련 개념</strong>
+큐 강등/부스팅, I/O 바운드 우대, 기아 방지</p>
+<hr />
+<h2>Q8. 리눅스 CFS(Completely Fair Scheduler)의 동작 원리를 아는 대로 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+CFS는 각 프로세스의 <strong>가상 실행 시간(vruntime)</strong>을 추적해, vruntime이 가장 작은(=CPU를 가장 적게 받은) 프로세스를 다음에 실행함으로써 공정성을 추구합니다. 프로세스들은 vruntime을 키로 하는 <strong>레드-블랙 트리</strong>에 정렬되어 최소값 선택이 O(log n)입니다. nice 값은 vruntime 증가 속도의 가중치로 반영되어, 우선순위가 높으면 vruntime이 천천히 증가해 CPU를 더 받습니다. 고정 타임 슬라이스 대신 목표 지연(targeted latency)을 실행 가능 프로세스 수로 나눠 동적으로 배분합니다. 참고로 리눅스 6.6부터는 CFS가 EEVDF 스케줄러로 대체되었습니다.</p>
+<p><strong>관련 개념</strong>
+vruntime, 레드-블랙 트리, nice 가중치, EEVDF, SCHED_FIFO/RR</p>
+<hr />
+<h2>Q9. 스케줄러의 종류(장기·중기·단기)를 구분해 설명하세요. <span class="stars">★</span></h2>
+<p><strong>답안</strong>
+<strong>장기 스케줄러(작업 스케줄러)</strong>는 어떤 작업을 메모리에 올려 준비 큐에 넣을지 결정하여 멀티프로그래밍 정도를 제어합니다. <strong>단기 스케줄러(CPU 스케줄러)</strong>는 준비 큐에서 다음 실행할 프로세스를 골라 디스패치하며 ms 단위로 매우 자주 실행됩니다. <strong>중기 스케줄러</strong>는 메모리가 부족할 때 프로세스를 통째로 디스크로 내보내고(스왑 아웃) 나중에 다시 들여오는(스왑 인) 역할을 합니다. 현대 시분할 OS에서는 장기 스케줄러가 사실상 없고 페이징 기반 가상 메모리가 중기 스케줄러 역할을 흡수했습니다.</p>
+<p><strong>관련 개념</strong>
+멀티프로그래밍 정도, 스와핑, 디스패처</p>
+<hr />
+<h2>Q10. 멀티코어 환경의 스케줄링 이슈(친화성, 부하 분산)를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+멀티코어에서는 코어마다 캐시가 있어, 프로세스를 다른 코어로 옮기면 캐시에 쌓인 데이터가 무효가 되어 성능이 떨어집니다. 그래서 스케줄러는 프로세스를 가급적 같은 코어에서 실행하는 <strong>캐시 친화성(affinity)</strong>을 유지하려 합니다. 반면 특정 코어에만 작업이 몰리면 안 되므로 <strong>부하 분산(load balancing)</strong>도 필요해, 두 목표가 상충합니다. 리눅스는 코어별 런큐를 두고 주기적 밸런싱과 유휴 코어의 작업 훔치기로 절충하며, taskset/cgroup cpuset으로 특정 코어에 고정(pinning)하는 운영 기법도 있습니다(NUMA 환경에서 특히 중요).</p>
+<p><strong>관련 개념</strong>
+코어별 런큐, 캐시 친화성, taskset/CPU pinning, NUMA, 작업 훔치기</p>
+<hr />
+<h2>Q11. 우선순위 역전(Priority Inversion)이란 무엇이고 어떻게 해결하나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+낮은 우선순위 프로세스가 잡은 락을 높은 우선순위 프로세스가 기다리는 사이, 중간 우선순위 프로세스가 낮은 프로세스를 선점해 실행되면서 결과적으로 높은 우선순위 프로세스가 중간보다 늦어지는 현상입니다. 1997년 화성 탐사선 패스파인더 재부팅 사건의 원인으로 유명합니다. 해결책은 <strong>우선순위 상속</strong>(락을 쥔 프로세스에게 대기자의 높은 우선순위를 일시적으로 물려줌)과 <strong>우선순위 상한 프로토콜</strong>(락 획득 시 미리 정해진 상한 우선순위로 승격)입니다.</p>
+<p><strong>관련 개념</strong>
+우선순위 상속, 우선순위 상한, 패스파인더 사례, 실시간 시스템</p>
+<hr />
+<h2>Q12. 스케줄링 계산 문제: FCFS와 SJF의 평균 대기 시간을 비교해보세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+예: P1(버스트 24), P2(3), P3(3)이 동시에 도착. <strong>FCFS(P1→P2→P3)</strong>: 대기 시간 0, 24, 27 → 평균 17. <strong>SJF(P2→P3→P1)</strong>: 대기 시간 0, 3, 6 → 평균 3. 짧은 작업을 먼저 처리하면 평균 대기 시간이 크게 줄어드는 것을 보여주는 전형적 예시입니다. 면접에서는 간트 차트를 그려 도착 시간·버스트 시간으로 대기/반환 시간을 계산하는 문제가 나오므로, 대기 시간 = 시작 시각 − 도착 시각(선점형은 실행 구간 합산 고려), 반환 시간 = 종료 시각 − 도착 시각 공식을 정확히 쓰는 연습이 필요합니다.</p>
+<p><strong>관련 개념</strong>
+간트 차트, 대기 시간/반환 시간 공식, 호위 효과 수치 예시</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit04-synchronization">
+<h1>4단원. 프로세스 동기화 (최빈출 단원)</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 경쟁 상태(Race Condition)란 무엇인가요? 예를 들어 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+여러 프로세스나 스레드가 공유 데이터에 동시에 접근할 때, 실행 순서(타이밍)에 따라 결과가 달라지는 상태입니다. 예를 들어 두 스레드가 counter++를 동시에 수행하면, 이 연산은 실제로 읽기→증가→쓰기 세 단계로 이뤄지므로 서로의 중간 결과를 덮어써 2 증가해야 할 값이 1만 증가할 수 있습니다. 은행 계좌 이중 인출, 재고 차감 오류 등이 실무적 사례이며, 공유 자원 접근 구간(임계 구역)을 상호 배제로 보호해야 합니다.</p>
+<p><strong>관련 개념</strong>
+공유 자원, 원자성 부재, counter++의 기계어 3단계, 임계 구역</p>
+<hr />
+<h2>Q2. 임계 구역(Critical Section) 문제의 해결 조건 3가지를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+① <strong>상호 배제(Mutual Exclusion)</strong>: 한 프로세스가 임계 구역에 있으면 다른 프로세스는 진입할 수 없습니다. ② <strong>진행(Progress)</strong>: 임계 구역이 비어 있고 진입을 원하는 프로세스가 있으면, 진입 결정이 무한정 미뤄져서는 안 됩니다. ③ <strong>한정 대기(Bounded Waiting)</strong>: 진입 요청 후 다른 프로세스의 진입 횟수에 상한이 있어 무한정 기다리지 않아야 합니다(기아 방지). 세 조건 중 하나라도 빠지면 정확성 또는 공정성이 깨집니다.</p>
+<p><strong>관련 개념</strong>
+상호 배제, 진행, 한정 대기, 피터슨 알고리즘(3조건 만족의 SW적 예)</p>
+<hr />
+<h2>Q3. 뮤텍스와 세마포어의 차이를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>뮤텍스</strong>는 소유권 개념이 있는 잠금(lock)으로, 락을 잡은 스레드만 해제할 수 있으며 한 번에 하나의 스레드만 임계 구역에 진입시킵니다. <strong>세마포어</strong>는 정수 카운터로, wait(P)에서 감소·0이면 대기, signal(V)에서 증가하며, 소유권이 없어 다른 스레드가 signal할 수 있습니다. 카운팅 세마포어는 N개의 동일 자원(커넥션 풀 등) 접근 제어에 쓰이고, 이진 세마포어는 뮤텍스처럼 쓸 수 있지만 소유권·우선순위 상속이 없다는 차이가 있습니다. 요약하면 뮤텍스는 '잠금', 세마포어는 '개수 있는 신호 전달' 메커니즘입니다.</p>
+<p><strong>관련 개념</strong>
+소유권, wait(P)/signal(V), 이진/카운팅 세마포어, 커넥션 풀</p>
+<hr />
+<h2>Q4. 스핀락과 슬립 기반 락(뮤텍스)의 차이와 각각 유리한 상황은? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>스핀락</strong>은 락을 얻을 때까지 반복 검사(busy waiting)하며 CPU를 소모하고, <strong>뮤텍스</strong>는 락을 못 얻으면 스레드를 재워(블록) 다른 작업에 CPU를 양보합니다. 스핀락은 컨텍스트 스위칭 비용이 없으므로 임계 구역이 매우 짧고 멀티코어에서 락이 곧 풀릴 것으로 기대될 때 유리하며, 커널 내부나 인터럽트 컨텍스트(잠들 수 없는 곳)에서 필수입니다. 반대로 임계 구역이 길거나 단일 코어라면 스핀은 순수 낭비이므로 슬립 기반이 낫습니다. 리눅스의 futex는 경쟁이 없으면 사용자 공간에서 처리하고 경쟁 시에만 커널로 들어가는 하이브리드입니다.</p>
+<p><strong>관련 개념</strong>
+busy waiting, 컨텍스트 스위칭 비용 비교, futex, 적응형 뮤텍스</p>
+<hr />
+<h2>Q5. 세마포어 wait/signal 연산으로 생산자-소비자 문제를 어떻게 해결하나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+유한 버퍼에 생산자는 넣고 소비자는 꺼내는 문제로, 세마포어 3개를 씁니다. empty(초기값 N: 빈 칸 수), full(초기값 0: 찬 칸 수), mutex(초기값 1: 버퍼 접근 보호). 생산자는 wait(empty) → wait(mutex) → 버퍼에 추가 → signal(mutex) → signal(full), 소비자는 wait(full) → wait(mutex) → 꺼내기 → signal(mutex) → signal(empty) 순서입니다. wait(mutex)를 wait(empty)보다 먼저 하면 버퍼가 가득 찼을 때 mutex를 쥔 채 잠들어 <strong>데드락</strong>이 되므로 순서가 중요합니다.</p>
+<p><strong>관련 개념</strong>
+유한 버퍼, empty/full/mutex, wait 순서와 데드락, 조건 변수 대안</p>
+<hr />
+<h2>Q6. 모니터(Monitor)란 무엇이고 세마포어보다 나은 점은? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+모니터는 공유 데이터와 그 데이터를 다루는 프로시저를 하나로 묶고, 한 시점에 하나의 스레드만 모니터 내부에서 실행되도록 언어 차원에서 보장하는 고수준 동기화 구조입니다. 조건 변수(wait/signal)로 조건 대기를 표현합니다. 세마포어는 wait/signal 호출 순서를 하나만 틀려도 데드락이나 상호 배제 실패가 나는데, 모니터는 상호 배제가 자동이라 실수 여지가 적습니다. 자바의 synchronized/wait/notify가 모니터 개념의 구현입니다.</p>
+<p><strong>관련 개념</strong>
+조건 변수, Hoare vs Mesa 시맨틱, 자바 synchronized, spurious wakeup(while로 조건 재검사)</p>
+<hr />
+<h2>Q7. 데드락과 라이브락, 기아의 차이를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>데드락</strong>은 프로세스들이 서로가 가진 자원을 기다리며 아무도 진행하지 못하는 정지 상태입니다. <strong>라이브락</strong>은 프로세스들이 멈추지는 않고 계속 상태를 바꾸지만(예: 서로 양보를 반복) 실질적 진전이 없는 상태입니다. <strong>기아</strong>는 시스템 전체는 진행되지만 특정 프로세스만 자원을 계속 할당받지 못하는 상태입니다. 데드락은 자원 그래프의 사이클, 라이브락은 잘못된 회피 로직, 기아는 불공정한 스케줄링/락 정책이 원인입니다.</p>
+<p><strong>관련 개념</strong>
+자원 할당 그래프, 백오프(라이브락 해결), 공정 락, 에이징</p>
+<hr />
+<h2>Q8. 원자적 연산(CAS)과 락프리 프로그래밍을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+CAS(Compare-And-Swap)는 '메모리 값이 기댓값과 같으면 새 값으로 교체'를 하드웨어가 원자적으로 수행하는 명령입니다. 락 없이 읽기→계산→CAS로 갱신하고, 실패하면(다른 스레드가 먼저 바꿈) 재시도하는 방식으로 락프리 자료구조를 만듭니다. 락 획득/해제와 블로킹이 없어 경쟁이 적을 때 매우 빠르고 데드락이 없지만, 경쟁이 심하면 재시도 낭비가 커지고 ABA 문제(값이 A→B→A로 돌아와 변경을 감지 못함)에 주의해야 합니다. 자바의 AtomicInteger, 무락 큐 등이 활용 예입니다.</p>
+<p><strong>관련 개념</strong>
+CAS, ABA 문제(버전 카운터로 해결), lock-free/wait-free, 원자적 명령(test-and-set)</p>
+<hr />
+<h2>Q9. test_and_set 같은 하드웨어 명령이 동기화에 왜 필요한가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+소프트웨어만으로 상호 배제를 구현(피터슨 알고리즘)할 수 있지만, 현대 CPU의 명령어 재배치와 멀티코어 캐시 일관성 문제 때문에 순수 SW 방식은 신뢰하기 어렵고 비효율적입니다. test_and_set, compare_and_swap 같은 명령은 '검사와 수정'을 하나의 원자적 단위로 하드웨어가 보장하므로, 그 사이에 다른 코어가 끼어들 수 없습니다. 모든 현대 락 구현(스핀락, 뮤텍스)의 기반이 이 원자적 명령입니다.</p>
+<p><strong>관련 개념</strong>
+원자성, 명령어 재배치, 메모리 배리어, 피터슨 알고리즘의 한계</p>
+<hr />
+<h2>Q10. 데이터베이스나 파일에 여러 프로세스가 접근할 때 동기화는 어떻게 하나요? (실무 연계) <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+프로세스 간에는 스레드용 뮤텍스를 그대로 쓸 수 없으므로 다른 수단을 씁니다. ① <strong>파일 락</strong>: flock/fcntl로 파일 단위 advisory lock을 겁니다(크론 작업 중복 실행 방지 등). ② <strong>공유 메모리 + 프로세스 공유 뮤텍스/네임드 세마포어</strong>. ③ <strong>DB 수준 락</strong>: 트랜잭션과 행 단위 락, SELECT ... FOR UPDATE. ④ <strong>분산 환경</strong>: 단일 호스트를 넘어서면 Redis(SETNX 기반), ZooKeeper, etcd를 이용한 분산 락을 사용합니다. 분산 락은 락 소유자의 장애를 대비해 TTL(임대 기간)과 펜싱 토큰을 함께 설계해야 안전합니다.</p>
+<p><strong>관련 개념</strong>
+flock/fcntl, 네임드 세마포어, SELECT FOR UPDATE, 분산 락(Redis/etcd), 펜싱 토큰</p>
+<hr />
+<h2>Q11. 리더-라이터(Readers-Writers) 문제를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+공유 데이터에 대해 읽기는 여러 스레드가 동시에 해도 안전하지만, 쓰기는 배타적이어야 하는 문제입니다. 읽기 우선 방식은 읽기 처리량이 좋지만 쓰기가 기아에 빠질 수 있고, 쓰기 우선 방식은 그 반대입니다. 해결 도구가 <strong>읽기-쓰기 락(rwlock)</strong>으로, 읽기 락은 공유 획득, 쓰기 락은 배타 획득합니다. 읽기가 압도적으로 많은 워크로드(설정 캐시, 라우팅 테이블)에서 뮤텍스보다 처리량이 크게 좋아집니다. DB의 공유 락(S)/배타 락(X)도 같은 개념입니다.</p>
+<p><strong>관련 개념</strong>
+rwlock, 읽기/쓰기 우선과 기아, S-lock/X-lock, RCU(리눅스 커널의 읽기 최적화)</p>
+<hr />
+<h2>Q12. 식사하는 철학자 문제와 해결 방법을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+원탁의 철학자 5명이 양옆 포크 2개를 들어야 식사할 수 있는 상황에서, 모두가 동시에 왼쪽 포크를 들면 오른쪽 포크를 영원히 기다리는 데드락이 되는 고전 문제입니다. 해결책은 ① 동시에 식사 가능한 인원을 4명으로 제한(카운팅 세마포어), ② 포크 2개를 모두 집을 수 있을 때만 집기(원자적 획득), ③ <strong>자원에 번호를 매겨 홀수 철학자는 왼쪽부터, 짝수는 오른쪽부터 집기(비대칭 획득 순서)</strong> 등이 있습니다. 핵심 교훈은 '락 획득 순서를 전역적으로 일관되게 하면 순환 대기가 깨진다'는 것으로, 실무의 다중 락 코드에도 그대로 적용됩니다.</p>
+<p><strong>관련 개념</strong>
+순환 대기 제거, 락 순서 규칙(lock ordering), 데드락 4조건과의 연결</p>
+<hr />
+<h2>Q13. 컨텍스트가 다른 두 스레드가 같은 데이터를 볼 때 발생하는 가시성 문제란? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+각 코어는 자체 캐시와 스토어 버퍼를 갖고 컴파일러·CPU는 명령을 재배치하므로, 한 스레드가 쓴 값을 다른 스레드가 즉시 또는 순서대로 보지 못할 수 있습니다. 이것이 <strong>가시성/순서(ordering) 문제</strong>입니다. 락은 상호 배제뿐 아니라 메모리 배리어 역할도 하여 락 경계에서 가시성을 보장합니다. 락 없이 플래그 변수로 통신하면(예: while(!done)) 컴파일러 최적화로 무한 루프가 될 수 있어, volatile(자바)이나 atomic 타입(C++/C11)으로 선언해야 합니다.</p>
+<p><strong>관련 개념</strong>
+캐시 일관성(MESI), 메모리 배리어, volatile, happens-before 관계</p>
+<hr />
+<h2>Q14. 뮤텍스 없이 싱글 스레드 이벤트 루프로 동시성을 처리하는 방식(Node.js/Redis)은 어떻게 안전한가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+이벤트 루프 모델은 하나의 스레드가 이벤트 큐에서 작업을 꺼내 순차 실행하므로, 애플리케이션 코드 수준에서 두 작업이 동시에 같은 데이터를 만질 수 없어 락이 필요 없습니다. I/O는 비동기(epoll 등)로 처리해 스레드가 놀지 않게 합니다. 대신 ① CPU를 오래 쓰는 작업 하나가 전체 루프를 블록하고, ② 멀티코어 활용은 프로세스를 여러 개 띄워야(클러스터링) 합니다. Redis가 단일 스레드로도 빠른 이유는 메모리 연산 위주 + 이벤트 루프 + 락 오버헤드 부재 덕분입니다.</p>
+<p><strong>관련 개념</strong>
+이벤트 루프, epoll, 논블로킹 I/O, Redis 단일 스레드 모델, Node 클러스터</p>
+<hr />
+<h2>Q15. 동기화 관점에서 데드락을 예방하는 코딩 습관을 말해보세요. (실무 연계) <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+① 여러 락을 잡을 때는 항상 <strong>전역적으로 동일한 순서</strong>로 획득합니다(순환 대기 제거). ② 락 보유 시간을 최소화하고, 락을 쥔 채 I/O나 외부 호출을 하지 않습니다. ③ 가능하면 락 하나로 해결하도록 설계를 단순화하거나 락 범위를 통합합니다. ④ trylock+타임아웃으로 무한 대기를 피하고 실패 시 보유 락을 놓고 재시도합니다(단, 라이브락 주의). ⑤ 락 대신 불변 데이터, 메시지 전달, 원자적 연산으로 공유 자체를 줄입니다. 실제 장애의 상당수는 락 순서 불일치에서 나오므로 ①이 가장 중요합니다.</p>
+<p><strong>관련 개념</strong>
+lock ordering, trylock, 락 범위 최소화, 불변성, 메시지 전달 아키텍처</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit05-deadlock">
+<h1>5단원. 교착상태 (Deadlock)</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 데드락 발생의 필요조건 4가지를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+① <strong>상호 배제(Mutual Exclusion)</strong>: 자원을 한 번에 한 프로세스만 사용할 수 있습니다. ② <strong>점유와 대기(Hold and Wait)</strong>: 자원을 보유한 채 다른 자원을 기다립니다. ③ <strong>비선점(No Preemption)</strong>: 자원을 강제로 빼앗을 수 없고 자발적 반납만 가능합니다. ④ <strong>순환 대기(Circular Wait)</strong>: 프로세스들이 원형으로 서로의 자원을 기다립니다. 네 조건이 <strong>모두</strong> 성립해야 데드락이 발생하므로, 하나만 깨뜨려도 예방이 가능합니다. 이 질문은 조건 나열에 그치지 않고 '어느 조건을 어떻게 깨느냐'는 후속 질문이 거의 항상 따라옵니다.</p>
+<p><strong>관련 개념</strong>
+필요조건(충분조건 아님), 자원 할당 그래프의 사이클, 예방 기법과의 매핑</p>
+<hr />
+<h2>Q2. 데드락 처리 전략 4가지(예방·회피·탐지 및 회복·무시)를 비교하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>예방</strong>은 4가지 필요조건 중 하나를 구조적으로 제거해 데드락 자체를 불가능하게 하지만 자원 이용률이 떨어집니다. <strong>회피</strong>는 자원 요청 시마다 시스템이 안전 상태를 유지하는지 검사해(은행원 알고리즘) 위험한 할당을 거부하는 방식으로, 최대 자원 요구량을 미리 알아야 해서 실용성이 낮습니다. <strong>탐지 및 회복</strong>은 데드락을 허용하되 주기적으로 탐지해 프로세스 강제 종료나 자원 선점으로 회복합니다(DBMS의 방식). <strong>무시(타조 알고리즘)</strong>는 데드락이 드물다는 전제로 아무것도 안 하는 것으로, 리눅스·윈도우 등 범용 OS의 실제 선택입니다. 발생 시 사용자가 프로세스를 죽이거나 재부팅합니다.</p>
+<p><strong>관련 개념</strong>
+은행원 알고리즘, 타조 알고리즘, DBMS 데드락 탐지, 비용-빈도 트레이드오프</p>
+<hr />
+<h2>Q3. 데드락 예방에서 각 필요조건을 깨는 방법을 구체적으로 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>상호 배제 부정</strong>: 자원을 공유 가능하게 만들지만(읽기 전용 파일 등) 본질적으로 배타적인 자원에는 불가능합니다. <strong>점유와 대기 부정</strong>: 실행 전에 필요한 모든 자원을 한꺼번에 요청하게 하거나, 새 자원 요청 시 보유 자원을 모두 반납 후 재요청하게 합니다. 자원 이용률 저하와 기아가 단점입니다. <strong>비선점 부정</strong>: 요청이 거부되면 보유 자원을 강제로 반납시킵니다. 상태 저장/복원이 가능한 자원(CPU, 메모리)에만 적용됩니다. <strong>순환 대기 부정</strong>: 모든 자원에 전역 순서를 부여하고 오름차순으로만 획득하게 합니다. 실무에서 가장 현실적이고 널리 쓰이는 방법(락 순서 규칙)입니다.</p>
+<p><strong>관련 개념</strong>
+전량 할당, 자원 순서화(lock ordering), 선점 가능 자원</p>
+<hr />
+<h2>Q4. 은행원 알고리즘(Banker's Algorithm)을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+데드락 회피 알고리즘으로, 자원 요청을 받으면 '일단 할당했다고 가정'한 뒤 시스템이 <strong>안전 상태</strong>인지 검사하고, 안전할 때만 실제로 할당합니다. 안전 상태란 모든 프로세스가 최대 요구량까지 자원을 받아 종료할 수 있는 실행 순서(안전 순서열)가 존재하는 상태입니다. Available(가용량), Max(최대 요구), Allocation(할당량), Need(Max−Allocation) 행렬로 계산하며, Need ≤ Available인 프로세스를 찾아 종료시키고 자원을 회수하는 과정을 반복해 전부 종료 가능하면 안전합니다. 각 프로세스의 최대 요구량을 미리 알아야 하고 검사 비용이 커서 실제 OS에서는 쓰이지 않지만, 개념 검증 문제로 자주 출제됩니다.</p>
+<p><strong>관련 개념</strong>
+안전 상태/불안전 상태, 안전 순서열, Need 행렬 계산 문제</p>
+<hr />
+<h2>Q5. 불안전 상태(unsafe state)는 곧 데드락인가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+아닙니다. 안전 상태는 데드락이 절대 발생하지 않음을 보장하는 상태이고, 불안전 상태는 '데드락으로 갈 <strong>가능성</strong>이 있는' 상태일 뿐입니다. 프로세스들이 실제로는 최대 요구량까지 자원을 쓰지 않고 종료할 수도 있으므로 불안전 상태에서도 데드락 없이 지나갈 수 있습니다. 포함 관계로 보면 데드락 상태 ⊂ 불안전 상태입니다. 은행원 알고리즘은 불안전 상태로의 진입 자체를 차단하는 보수적 전략입니다.</p>
+<p><strong>관련 개념</strong>
+안전/불안전/데드락 상태의 포함 관계, 보수적 회피의 이용률 손실</p>
+<hr />
+<h2>Q6. 데드락 탐지 후 회복 방법에는 어떤 것들이 있나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+탐지는 자원 할당 그래프의 사이클 검사(자원이 단일 인스턴스일 때) 또는 탐지 알고리즘(다중 인스턴스)으로 합니다. 회복은 ① <strong>프로세스 종료</strong>: 데드락에 걸린 프로세스를 모두 죽이거나, 하나씩 죽이며 사이클이 풀리는지 확인합니다. 희생자는 우선순위, 수행 시간, 사용 자원량 등을 고려해 선택합니다. ② <strong>자원 선점</strong>: 일부 프로세스에서 자원을 빼앗아 다른 프로세스에 주고, 빼앗긴 프로세스는 안전한 지점으로 <strong>롤백</strong>시킵니다. 같은 프로세스만 반복 희생되는 기아를 막기 위해 롤백 횟수를 비용에 반영합니다. DBMS가 트랜잭션 하나를 골라 abort시키는 것이 대표적 실사례입니다.</p>
+<p><strong>관련 개념</strong>
+wait-for 그래프, 희생자 선택, 롤백, 트랜잭션 abort</p>
+<hr />
+<h2>Q7. 실무(DB, 분산 시스템)에서 데드락을 겪는다면 어떻게 진단하고 해결하겠습니까? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>DB</strong>: MySQL InnoDB는 데드락을 자동 탐지해 한 트랜잭션을 롤백하며, SHOW ENGINE INNODB STATUS로 최근 데드락 정보를 확인합니다. 해결은 트랜잭션들이 테이블·행을 같은 순서로 접근하도록 통일하고, 트랜잭션을 짧게 유지하며, 필요한 인덱스를 추가해 락 범위를 줄이는 것입니다. <strong>애플리케이션</strong>: 스레드 덤프(jstack 등)에서 락 대기 사이클을 확인하고 락 순서를 통일합니다. <strong>분산 시스템</strong>: 전역 탐지가 어려우므로 락에 타임아웃·TTL을 걸어 무한 대기를 차단하고 재시도(지수 백오프)로 풀어냅니다. 공통 원칙은 '락 순서 통일 + 락 시간 최소화 + 타임아웃'입니다.</p>
+<p><strong>관련 개념</strong>
+InnoDB 데드락 탐지, 스레드 덤프, 락 타임아웃, 지수 백오프</p>
+<hr />
+<h2>Q8. 자원 할당 그래프에서 사이클이 있으면 항상 데드락인가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+자원이 <strong>단일 인스턴스</strong>뿐이라면 사이클은 데드락의 필요충분조건이므로 사이클=데드락입니다. 그러나 자원에 <strong>인스턴스가 여러 개</strong>면 사이클이 있어도 다른 인스턴스를 가진 프로세스가 종료하며 자원을 반납해 사이클이 풀릴 수 있으므로, 사이클은 필요조건일 뿐입니다. 이 경우 데드락 여부는 탐지 알고리즘으로 판정해야 합니다. 그래프 문제로 출제될 때 인스턴스 개수를 먼저 확인하는 것이 포인트입니다.</p>
+<p><strong>관련 개념</strong>
+자원 할당 그래프 표기(요청/할당 간선), 단일 vs 다중 인스턴스, 필요조건 vs 필요충분조건</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit06-memory-management">
+<h1>6단원. 메모리 관리</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 논리 주소와 물리 주소의 차이, 그리고 MMU의 역할을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>논리(가상) 주소</strong>는 CPU(프로세스)가 바라보는 주소이고, <strong>물리 주소</strong>는 실제 메모리 하드웨어의 주소입니다. 프로세스는 자신만의 논리 주소 공간(0부터 시작)을 가지며, 실행 시점에 <strong>MMU(Memory Management Unit)</strong>가 논리 주소를 물리 주소로 변환합니다. 이 분리 덕분에 프로세스를 물리 메모리 어디에나 배치할 수 있고, 프로세스 간 메모리 보호와 가상 메모리 구현이 가능해집니다. 페이징에서는 페이지 테이블이 변환 정보를 담고 MMU가 이를 참조합니다.</p>
+<p><strong>관련 개념</strong>
+MMU, 주소 바인딩(컴파일/적재/실행 시간), 재배치 레지스터, 페이지 테이블</p>
+<hr />
+<h2>Q2. 연속 메모리 할당에서 내부 단편화와 외부 단편화의 차이는? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>내부 단편화</strong>는 할당된 블록이 요청보다 커서 블록 <strong>내부</strong>에 남는 낭비 공간입니다(고정 분할, 페이징에서 마지막 페이지). <strong>외부 단편화</strong>는 할당/해제가 반복되며 생기는 흩어진 작은 빈 공간들로, 총합은 충분한데 연속 공간이 없어 할당에 실패하는 문제입니다(가변 분할). 외부 단편화는 <strong>압축(compaction)</strong>으로 해소할 수 있으나 비용이 크고, 근본적으로는 <strong>페이징</strong>이 연속 할당 요구를 없애 외부 단편화를 제거합니다. 대신 페이징은 페이지 단위 반올림으로 인한 내부 단편화를 감수합니다.</p>
+<p><strong>관련 개념</strong>
+고정/가변 분할, 압축, 페이징의 트레이드오프, 50% 규칙</p>
+<hr />
+<h2>Q3. 가변 분할에서 최초 적합, 최적 적합, 최악 적합을 비교하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>최초 적합(first fit)</strong>은 처음 발견한 충분한 공간에 할당하며 탐색이 빨라 일반적으로 성능과 공간 효율의 균형이 좋습니다. <strong>최적 적합(best fit)</strong>은 가장 작은 충분한 공간을 골라 낭비를 줄이려 하지만, 전체 탐색이 필요하고 아주 작은 자투리 공간을 대량 생산해 외부 단편화가 오히려 심해질 수 있습니다. <strong>최악 적합(worst fit)</strong>은 가장 큰 공간에 할당해 남는 조각을 크게 유지하려는 발상이지만 실험적으로 성능이 가장 나쁩니다. 시뮬레이션 결과 최초 적합과 최적 적합이 최악 적합보다 우수하며, 속도는 최초 적합이 가장 빠릅니다.</p>
+<p><strong>관련 개념</strong>
+free list 탐색, 자투리 조각, 정보처리기사 계산 문제 유형</p>
+<hr />
+<h2>Q4. 페이징(Paging)의 원리와 장단점을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+물리 메모리를 고정 크기 <strong>프레임</strong>으로, 논리 메모리를 같은 크기 <strong>페이지</strong>로 나누고, 페이지 테이블로 페이지→프레임 매핑을 관리합니다. 논리 주소는 (페이지 번호 p, 오프셋 d)로 나뉘고, p로 페이지 테이블을 조회해 프레임 번호를 얻은 뒤 오프셋을 붙여 물리 주소를 만듭니다. 장점은 외부 단편화 제거, 연속 배치 불필요, 가상 메모리·공유·보호의 기반 제공입니다. 단점은 페이지 테이블 유지 메모리 오버헤드, 주소 변환으로 인한 메모리 접근 2회(TLB로 완화), 마지막 페이지의 내부 단편화입니다. 일반적 페이지 크기는 4KB입니다.</p>
+<p><strong>관련 개념</strong>
+페이지/프레임, 페이지 테이블, (p, d) 주소 분해, TLB, 4KB 페이지</p>
+<hr />
+<h2>Q5. TLB(Translation Lookaside Buffer)란 무엇이고 왜 필요한가요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+페이지 테이블은 메모리에 있으므로 주소 변환마다 메모리 접근이 한 번 더 필요해, 모든 메모리 접근이 2배로 느려집니다. TLB는 최근 사용한 페이지→프레임 변환을 담는 MMU 내부의 고속 연관 캐시로, TLB 히트 시 메모리 접근 없이 즉시 변환합니다. 지역성 덕분에 히트율이 99% 수준이라 실효 접근 시간이 거의 1회 접근에 수렴합니다. 컨텍스트 스위칭 시 주소 공간이 바뀌므로 TLB를 플러시해야 하는데(ASID로 완화), 이것이 프로세스 전환이 비싼 주요 이유 중 하나입니다. 대용량 메모리 서버에서는 TLB 미스를 줄이기 위해 huge page(2MB/1GB)를 씁니다.</p>
+<p><strong>관련 개념</strong>
+실효 접근 시간(EAT) 계산, ASID, TLB 플러시, huge page(DB 서버 튜닝)</p>
+<hr />
+<h2>Q6. 다단계 페이지 테이블은 왜 사용하나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+64비트(실질 48비트) 주소 공간을 단일 페이지 테이블로 관리하면 프로세스마다 수백 GB급 테이블이 필요해 불가능합니다. 다단계 페이지 테이블은 페이지 테이블 자체를 페이지 단위로 쪼개 트리 구조로 만들고, <strong>실제로 사용하는 주소 영역의 테이블만 생성</strong>합니다. 대부분의 프로세스는 주소 공간을 드문드문 쓰므로 메모리가 크게 절약됩니다. 대가는 변환 시 단계 수만큼 메모리 접근이 늘어나는 것인데(x86-64는 4~5단계), TLB 히트가 대부분이므로 실용적입니다. 대안으로 해시 페이지 테이블, 역페이지 테이블이 있습니다.</p>
+<p><strong>관련 개념</strong>
+x86-64 4단계 워킹, 희소 주소 공간, 역페이지 테이블, 페이지 워크 비용</p>
+<hr />
+<h2>Q7. 세그멘테이션과 페이징의 차이를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>세그멘테이션</strong>은 프로그램을 코드, 데이터, 스택 등 의미 있는 논리 단위(세그먼트)로 나누며, 세그먼트마다 크기가 다릅니다. 논리적 구조가 보존되어 세그먼트 단위 보호·공유가 자연스럽지만, 가변 크기라 외부 단편화가 발생합니다. <strong>페이징</strong>은 의미와 무관한 고정 크기로 잘라 외부 단편화가 없지만 논리적 단위와 무관합니다. 과거에는 둘을 결합(세그먼트를 페이징)하기도 했으나, 현대 OS(리눅스, x86-64)는 사실상 페이징만 사용하고 세그멘테이션은 형식적으로만 남아 있습니다. 다만 '논리적 영역' 개념은 가상 메모리 영역(VMA) 관리로 이어집니다.</p>
+<p><strong>관련 개념</strong>
+세그먼트 테이블(base/limit), 외부 단편화, 페이지드 세그멘테이션, VMA</p>
+<hr />
+<h2>Q8. 스와핑(Swapping)이란 무엇이고, 현대 OS에서는 어떻게 달라졌나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+전통적 스와핑은 메모리가 부족할 때 프로세스 <strong>전체</strong>를 디스크(스왑 영역)로 내보내고 필요할 때 다시 들여오는 방식입니다. 프로세스 단위 이동은 비용이 너무 커서, 현대 OS는 <strong>페이지 단위 스와핑(페이지 아웃/인)</strong>을 사용합니다. 즉 잘 안 쓰는 페이지만 골라 내보냅니다. 리눅스 운영 관점에서 스왑 사용량 자체보다 <strong>스왑 인/아웃이 지속 발생(si/so)</strong>하는지가 성능 문제의 신호이며, swappiness 파라미터로 페이지 캐시 회수와 익명 페이지 스왑의 비율을 조절합니다. 스왑이 없으면 메모리 부족 시 OOM Killer가 바로 동작합니다.</p>
+<p><strong>관련 개념</strong>
+스왑 파티션/파일, vmstat si/so, swappiness, OOM Killer, zram</p>
+<hr />
+<h2>Q9. 메모리 보호는 어떻게 구현되나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+페이징 환경에서는 페이지 테이블 엔트리에 <strong>보호 비트</strong>(읽기/쓰기/실행 권한, 유효 비트, 사용자/커널 구분)를 두고, MMU가 모든 접근을 검사해 위반 시 트랩(폴트)을 발생시킵니다. 프로세스는 자기 페이지 테이블에 매핑된 페이지만 접근할 수 있으므로 다른 프로세스의 메모리는 원천적으로 보이지 않습니다. 보안 기법으로 확장하면, <strong>NX 비트</strong>는 데이터 페이지에서 코드 실행을 막아 버퍼 오버플로우 공격을 어렵게 하고, <strong>ASLR</strong>은 스택·힙·라이브러리 배치를 무작위화합니다. 잘못된 접근은 SIGSEGV(세그멘테이션 폴트)로 나타납니다.</p>
+<p><strong>관련 개념</strong>
+보호 비트, 유효/무효 비트, NX(DEP), ASLR, SIGSEGV</p>
+<hr />
+<h2>Q10. Copy-on-Write(COW)의 동작 원리를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+fork() 시 부모의 주소 공간 전체를 즉시 복사하는 대신, 부모와 자식이 <strong>같은 물리 페이지를 공유</strong>하고 해당 페이지들을 읽기 전용으로 표시합니다. 어느 쪽이든 쓰기를 시도하면 보호 폴트가 발생하고, 그때서야 커널이 그 페이지만 복사해 각자에게 사설 사본을 줍니다. 대부분의 fork가 곧바로 exec로 이어져 복사가 무의미해지는 현실에서, COW는 fork를 사실상 페이지 테이블 복사 비용만으로 줄여줍니다. 같은 원리가 파일시스템 스냅샷(Btrfs, ZFS), 가상 머신 디스크 이미지 등 인프라 전반에 쓰입니다.</p>
+<p><strong>관련 개념</strong>
+fork 최적화, 보호 폴트, 스냅샷(ZFS/Btrfs), Redis BGSAVE의 COW 활용</p>
+<hr />
+<h2>Q11. 캐시 메모리와 메모리 계층 구조를 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+레지스터 → L1/L2/L3 캐시 → 주기억장치(DRAM) → SSD/디스크 순으로, 위로 갈수록 빠르고 작으며 비쌉니다. 계층 구조가 동작하는 근거는 <strong>지역성</strong>입니다. 시간 지역성(방금 쓴 데이터를 곧 다시 씀)과 공간 지역성(인접 데이터를 곧 씀) 덕분에 작은 캐시로도 대부분의 접근을 상위 계층에서 처리할 수 있습니다. 대략적 접근 시간은 L1 ~1ns, DRAM ~100ns, NVMe SSD ~수십 µs, HDD ~ms로 계층 간 수십~수천 배 차이가 나므로, 상위 계층 히트율이 시스템 성능을 좌우합니다. 캐시 일관성(MESI)은 멀티코어에서 코어 간 캐시 동기화 프로토콜입니다.</p>
+<p><strong>관련 개념</strong>
+시간/공간 지역성, 캐시 라인(64B), 히트율과 평균 접근 시간, MESI</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit07-virtual-memory">
+<h1>7단원. 가상 메모리 (최빈출 단원)</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 가상 메모리란 무엇이고 어떤 이점을 주나요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+프로세스의 논리 주소 공간과 물리 메모리를 분리하여, <strong>프로세스 전체가 메모리에 없어도 실행</strong>할 수 있게 하는 기법입니다. 이점은 ① 물리 메모리보다 큰 프로그램 실행 가능, ② 각 프로세스가 필요한 부분만 메모리에 올라가므로 더 많은 프로세스를 동시에 수용(멀티프로그래밍 정도 향상), ③ 프로세스 간 완전한 주소 공간 격리와 보호, ④ 라이브러리 공유·COW 같은 메모리 공유 최적화, ⑤ 프로그래머가 메모리 크기를 신경 쓰지 않는 프로그래밍 편의입니다. 구현은 요구 페이징이 표준입니다.</p>
+<p><strong>관련 개념</strong>
+논리/물리 분리, 요구 페이징, 지역성(성립 근거), 주소 공간 격리</p>
+<hr />
+<h2>Q2. 요구 페이징(Demand Paging)과 페이지 폴트 처리 과정을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+요구 페이징은 페이지를 미리 올리지 않고 <strong>실제로 접근할 때</strong> 메모리에 적재하는 방식입니다. 접근한 페이지가 메모리에 없으면(페이지 테이블 유효 비트 0) MMU가 <strong>페이지 폴트</strong> 트랩을 발생시키고, 커널이 ① 유효한 접근인지 검사(아니면 SIGSEGV) → ② 빈 프레임 확보(없으면 페이지 교체) → ③ 디스크에서 해당 페이지를 읽어 프레임에 적재 → ④ 페이지 테이블 갱신(유효 비트 1) → ⑤ 폴트를 일으킨 명령을 재실행합니다. 디스크 I/O가 포함되므로 페이지 폴트는 정상 메모리 접근보다 수만~수십만 배 느려, 폴트율이 성능을 좌우합니다.</p>
+<p><strong>관련 개념</strong>
+유효/무효 비트, 트랩, 명령 재실행, 실효 접근 시간(EAT) 계산, major/minor fault</p>
+<hr />
+<h2>Q3. 페이지 교체 알고리즘 FIFO, OPT, LRU를 비교 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>FIFO</strong>는 가장 먼저 들어온 페이지를 교체합니다. 구현이 큐로 간단하지만 오래된 페이지가 자주 쓰이는 페이지일 수 있고, 벨레이디의 모순이 발생합니다. <strong>OPT(최적)</strong>는 앞으로 가장 오랫동안 사용되지 않을 페이지를 교체하며 폴트가 이론적 최소지만 미래를 알아야 해서 구현 불가능하고, 다른 알고리즘의 평가 기준으로 씁니다. <strong>LRU</strong>는 가장 오랫동안 사용되지 않은 페이지를 교체합니다. 과거로 미래(지역성)를 근사해 OPT에 가까운 성능을 내지만, 엄밀한 구현(카운터나 스택)은 모든 접근마다 갱신이 필요해 비싸므로 실제 OS는 참조 비트 기반 근사 LRU(clock)를 씁니다. 참조 문자열로 폴트 수를 세는 계산 문제가 단골입니다.</p>
+<p><strong>관련 개념</strong>
+참조 문자열 계산, 벨레이디의 모순(FIFO), clock(second chance), LRU 구현 비용</p>
+<hr />
+<h2>Q4. 벨레이디의 모순(Belady's Anomaly)이란 무엇인가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+프레임 수를 <strong>늘렸는데</strong> 페이지 폴트가 오히려 <strong>증가</strong>하는 직관에 반하는 현상으로, FIFO에서 발생합니다(예: 참조열 1,2,3,4,1,2,5,1,2,3,4,5는 프레임 3개일 때 9회, 4개일 때 10회 폴트). LRU나 OPT 같은 <strong>스택 알고리즘</strong>(프레임 n개일 때 메모리 내용이 n+1개일 때 내용의 부분집합이 되는 성질)에서는 발생하지 않습니다. FIFO는 페이지의 사용 여부와 무관하게 교체하기 때문에 이런 역전이 생깁니다.</p>
+<p><strong>관련 개념</strong>
+스택 알고리즘, 부분집합 성질, FIFO의 한계</p>
+<hr />
+<h2>Q5. 스래싱(Thrashing)의 원인과 해결책을 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+스래싱은 프로세스들이 실행보다 <strong>페이지 폴트 처리(스왑 인/아웃)에 대부분의 시간을 쓰는</strong> 상태입니다. 원인은 멀티프로그래밍 정도가 과해 각 프로세스가 필요한 최소 프레임(워킹셋)조차 확보하지 못하는 것입니다. 악순환이 특징적입니다: 폴트 증가 → CPU 이용률 하락 → OS가 이용률을 높이려 프로세스를 더 투입 → 프레임 부족 심화 → 폴트 폭증. 해결은 ① 워킹셋 모델로 각 프로세스의 필요 프레임을 보장하고 부족하면 일부 프로세스를 중단(스왑 아웃), ② 페이지 폴트 빈도(PFF)가 상한을 넘으면 프레임 추가·하한 미만이면 회수, ③ 근본적으로 메모리 증설 또는 워크로드 축소입니다. 운영 관점에서는 vmstat의 si/so 지속 발생과 CPU 이용률 하락 조합이 스래싱 신호입니다.</p>
+<p><strong>관련 개념</strong>
+워킹셋 모델, PFF, 멀티프로그래밍 정도, vmstat 진단</p>
+<hr />
+<h2>Q6. 워킹셋(Working Set) 모델을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+워킹셋은 최근 시간 창 Δ 동안 프로세스가 참조한 페이지들의 집합으로, 지역성에 근거해 '지금 이 프로세스가 실제로 필요로 하는 메모리'를 나타냅니다. OS는 각 프로세스의 워킹셋 크기 합이 가용 프레임을 넘지 않도록 멀티프로그래밍 정도를 조절하고, 넘으면 일부 프로세스 전체를 중단시켜 스래싱을 예방합니다. Δ가 너무 작으면 지역성을 다 못 담고, 너무 크면 여러 지역성이 섞입니다. 실무에서 컨테이너 메모리 limit 설정이나 JVM 힙 사이징도 '워킹셋을 물리 메모리에 담는다'는 같은 사고방식입니다.</p>
+<p><strong>관련 개념</strong>
+지역성 창 Δ, 프레임 할당, 스래싱 예방, RSS(Resident Set Size)</p>
+<hr />
+<h2>Q7. 프레임 할당 방식(균등/비례/전역/지역 교체)을 설명하세요. <span class="stars">★</span></h2>
+<p><strong>답안</strong>
+<strong>균등 할당</strong>은 모든 프로세스에 같은 수의 프레임을, <strong>비례 할당</strong>은 프로세스 크기(또는 우선순위)에 비례해 배분합니다. 교체 범위 기준으로 <strong>전역 교체</strong>는 다른 프로세스의 프레임도 빼앗을 수 있어 메모리 활용이 유연하지만 프로세스의 폴트율이 자신이 통제할 수 없는 외부 요인에 좌우됩니다. <strong>지역 교체</strong>는 자기 프레임 안에서만 교체해 성능이 예측 가능하지만 유휴 프레임 활용이 안 됩니다. 리눅스는 기본적으로 전역 교체이며, cgroup 메모리 제한이 사실상 지역 교체 경계를 만듭니다.</p>
+<p><strong>관련 개념</strong>
+전역 vs 지역 교체, cgroup 메모리 제한, 최소 프레임 수</p>
+<hr />
+<h2>Q8. 페이지 크기가 크거나 작을 때의 트레이드오프는? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>작은 페이지</strong>: 내부 단편화가 적고 필요한 부분만 정밀하게 적재하지만, 페이지 수가 많아져 페이지 테이블이 커지고 TLB 커버리지가 줄며 폴트 횟수가 늘어납니다. <strong>큰 페이지</strong>: 페이지 테이블이 작고 TLB 히트율이 높아지며 디스크 I/O가 효율적(한 번에 많이)이지만 내부 단편화가 커집니다. 표준은 4KB이고, 메모리를 수십 GB 쓰는 DB·가상화 서버에서는 TLB 미스 감소를 위해 2MB/1GB <strong>huge page</strong>를 명시적으로 씁니다. 리눅스의 THP(Transparent Huge Pages)는 자동화 기능이지만 지연 스파이크를 유발할 수 있어 DB 벤더들은 비활성화를 권장하기도 합니다.</p>
+<p><strong>관련 개념</strong>
+TLB 커버리지, huge page, THP와 DB 튜닝, 내부 단편화</p>
+<hr />
+<h2>Q9. mmap이란 무엇이고 read/write와 어떻게 다른가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+mmap은 파일이나 익명 메모리를 프로세스 주소 공간에 <strong>매핑</strong>하는 시스템 콜입니다. 매핑 후에는 포인터로 메모리를 읽고 쓰듯 파일에 접근하며, 실제 적재는 페이지 폴트를 통해 요구 페이징으로 이뤄집니다. read/write는 커널 버퍼(페이지 캐시)에서 사용자 버퍼로 <strong>복사</strong>가 일어나고 매번 시스템 콜이 필요한 반면, mmap은 페이지 캐시를 직접 매핑해 복사와 시스템 콜을 줄입니다. 대용량 파일 임의 접근, 프로세스 간 공유 메모리(MAP_SHARED), 라이브러리 로딩에 쓰입니다. 다만 폴트 비용과 TLB 영향이 있어 순차 대량 읽기에서는 read가 나을 수 있습니다.</p>
+<p><strong>관련 개념</strong>
+페이지 캐시, zero-copy, MAP_SHARED/PRIVATE, 라이브러리 로딩(ld.so)</p>
+<hr />
+<h2>Q10. 리눅스 OOM Killer는 언제, 어떻게 동작하나요? (운영 연계) <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+커널이 페이지 회수·스왑으로도 메모리를 확보할 수 없는 극한 상황에서, <strong>oom_score가 가장 높은 프로세스를 SIGKILL로 강제 종료</strong>해 시스템을 살리는 최후 수단입니다. 점수는 메모리 사용량 위주로 계산되며, oom_score_adj로 프로세스별 가중치를 조정할 수 있습니다(-1000이면 제외). 이 배경에는 리눅스의 <strong>메모리 오버커밋</strong> 정책이 있습니다. malloc 시점에는 가상 주소만 주고 실제 페이지는 첫 접근 때 할당하므로, 약속한 메모리가 실제로 모자라는 순간이 올 수 있는 것입니다. 운영 시 dmesg에서 OOM 로그를 확인하고, 컨테이너 환경에서는 cgroup 메모리 limit 초과 시 컨테이너 단위 OOM kill이 발생합니다(쿠버네티스 OOMKilled 상태).</p>
+<p><strong>관련 개념</strong>
+오버커밋(vm.overcommit_memory), oom_score_adj, dmesg, K8s OOMKilled, 메모리 limit</p>
+<hr />
+<h2>Q11. 페이지 캐시란 무엇이고, free 명령의 available 메모리와 어떤 관계인가요? (운영 연계) <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+페이지 캐시는 디스크에서 읽은 파일 데이터를 메모리에 캐싱하는 커널 기능으로, 같은 데이터의 재접근을 디스크 I/O 없이 처리합니다. 리눅스는 남는 메모리를 최대한 페이지 캐시로 활용하므로 free 명령에서 free(완전 미사용)가 작아 보여도 문제가 아닙니다. 캐시는 메모리가 필요하면 즉시 회수 가능하기 때문입니다. 그래서 실질 가용 메모리는 <strong>available</strong> 컬럼(free + 회수 가능한 캐시)을 봐야 합니다. "리눅스 서버 메모리가 꽉 찼어요"라는 신고의 상당수가 페이지 캐시를 오해한 것으로, 인프라 면접의 단골 실무 질문입니다. 쓰기 캐시(dirty page)는 주기적으로 디스크에 반영(writeback)됩니다.</p>
+<p><strong>관련 개념</strong>
+buff/cache, available, dirty page와 writeback, drop_caches, vm.dirty_ratio</p>
+<hr />
+<h2>Q12. 세그멘테이션 폴트(SIGSEGV)는 왜 발생하며, 페이지 폴트와 무엇이 다른가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>페이지 폴트</strong>는 접근한 페이지가 메모리에 없을 때 발생하는 정상적 이벤트로, 커널이 페이지를 적재해 투명하게 해결합니다. <strong>세그멘테이션 폴트</strong>는 프로세스가 자신에게 <strong>허용되지 않은</strong> 주소(매핑되지 않은 영역, 읽기 전용 페이지에 쓰기 등)에 접근했을 때 커널이 SIGSEGV 시그널을 보내 프로세스를 종료시키는 오류입니다. 즉 페이지 폴트 처리 과정에서 '유효하지 않은 접근'으로 판정되면 SIGSEGV가 됩니다. 원인은 널 포인터 역참조, 해제된 메모리 사용, 배열 범위 초과, 스택 오버플로우 등이며, 코어 덤프와 gdb로 디버깅합니다.</p>
+<p><strong>관련 개념</strong>
+유효성 검사, 널 포인터, 코어 덤프, minor/major/invalid fault 구분</p>
+<hr />
+<h2>Q13. 요구 페이징 환경에서 실효 접근 시간(EAT)을 계산해보세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+EAT = (1−p) × 메모리 접근 시간 + p × 페이지 폴트 처리 시간 (p는 폴트 확률). 예: 메모리 접근 200ns, 폴트 처리 8ms(=8,000,000ns), p=0.001이면 EAT = 0.999×200 + 0.001×8,000,000 ≈ 8,200ns로 메모리 접근보다 <strong>40배</strong> 느려집니다. 성능 저하를 10% 이내로 유지하려면 220 ≥ 200 + p×8,000,000에서 p ≤ 0.0000025, 즉 40만 번 접근에 1회 미만의 폴트만 허용됩니다. 페이지 폴트가 얼마나 치명적인지, 왜 교체 알고리즘과 스래싱 방지가 중요한지를 수치로 보여주는 문제입니다.</p>
+<p><strong>관련 개념</strong>
+EAT 공식, 폴트 확률의 민감도, 디스크 vs 메모리 속도 격차</p>
+<hr />
+<h2>Q14. clock(Second Chance) 알고리즘을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+LRU를 저비용으로 근사하는 실용 알고리즘입니다. 프레임들을 원형 큐로 놓고 포인터(시곗바늘)가 순회하며, 각 페이지의 <strong>참조 비트</strong>를 검사합니다. 비트가 1이면(최근 사용됨) 0으로 바꾸고 한 번의 기회를 더 주며 다음으로 넘어가고, 0이면(한 바퀴 동안 미사용) 교체 대상으로 선택합니다. 하드웨어가 접근 시 참조 비트를 자동으로 1로 세팅해주므로 접근마다 소프트웨어 갱신이 필요한 엄밀한 LRU보다 훨씬 쌉니다. 변형으로 참조 비트+수정 비트를 함께 보는 개선판(NRU 계열)이 있으며, 수정된 페이지는 디스크에 써야 해서 교체 비용이 크므로 우선순위를 낮춥니다.</p>
+<p><strong>관련 개념</strong>
+참조 비트, 수정(dirty) 비트, 원형 큐, LRU 근사</p>
+<hr />
+<h2>Q15. 컨테이너/클라우드 환경에서 가상 메모리 관련해 주의할 점은? (인프라 연계) <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+① <strong>cgroup 메모리 limit</strong>: 컨테이너가 limit을 초과하면 호스트 메모리가 남아도 OOM kill됩니다. JVM 등 런타임이 컨테이너 limit을 인식하도록 설정해야 합니다(최신 JVM은 자동 인식). ② <strong>request/limit 설계</strong>: 쿠버네티스에서 request 대비 limit이 크면 노드 메모리 오버커밋으로 이웃 워크로드 영향(noisy neighbor)이 생길 수 있습니다. ③ <strong>스왑</strong>: 쿠버네티스는 전통적으로 스왑 비활성화를 요구해 왔으므로, 메모리 부족이 곧 OOM으로 직결됩니다. ④ <strong>페이지 캐시 공유</strong>: 같은 노드 컨테이너들이 페이지 캐시를 공유하므로 메모리 계측(RSS vs working set)이 혼동되기 쉽습니다. 모니터링은 container_memory_working_set_bytes 기준으로 보는 것이 표준입니다.</p>
+<p><strong>관련 개념</strong>
+cgroup v2, K8s requests/limits, OOMKilled, working set 메트릭, JVM 컨테이너 인식</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+<section class="unit" id="unit08-filesystem-io">
+<h1>8단원. 파일 시스템과 I/O</h1>
+<blockquote>
+<p>대상: 전공자 · 정보처리기사 취득자 | 목적: 인프라 직무 기술 면접 대비
+중요도: <span class="stars">★★★</span> 최빈출 · <span class="stars">★★</span> 자주 출제 · <span class="stars">★</span> 기본 개념</p>
+</blockquote>
+<hr />
+<h2>Q1. 파일 시스템이란 무엇이고 어떤 일을 하나요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+디스크 같은 블록 장치 위에 파일과 디렉터리라는 추상화를 제공하는 OS 구성 요소입니다. 핵심 기능은 ① 파일 이름 → 디스크 블록 매핑(할당 관리), ② 디렉터리 계층 구조 관리, ③ 빈 공간 관리, ④ 권한·소유권 등 메타데이터 관리, ⑤ 크래시 일관성 보장(저널링)입니다. 리눅스는 ext4, XFS, Btrfs, 윈도우는 NTFS가 대표적이며, VFS(가상 파일 시스템) 계층이 서로 다른 파일시스템에 동일한 인터페이스(open/read/write)를 제공합니다.</p>
+<p><strong>관련 개념</strong>
+블록 장치, 메타데이터, VFS, ext4/XFS/NTFS, 마운트</p>
+<hr />
+<h2>Q2. 아이노드(inode)란 무엇인가요? <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+유닉스 계열 파일시스템에서 <strong>파일 하나의 메타데이터를 담는 자료구조</strong>입니다. 파일 크기, 소유자, 권한, 타임스탬프, 링크 수, 그리고 <strong>데이터 블록들의 위치(직접/간접 블록 포인터)</strong>를 담습니다. 중요한 점은 <strong>파일 이름은 아이노드에 없다</strong>는 것입니다. 이름은 디렉터리(이름→아이노드 번호 매핑 테이블)가 관리합니다. 운영 관점에서 아이노드 개수는 파일시스템 생성 시 고정되므로, 작은 파일이 수백만 개 쌓이면 디스크 용량이 남아도 아이노드 고갈로 파일 생성이 실패할 수 있습니다(df -i로 확인).</p>
+<p><strong>관련 개념</strong>
+직접/간접 블록 포인터, 디렉터리 엔트리, df -i, 아이노드 고갈 장애</p>
+<hr />
+<h2>Q3. 하드 링크와 심볼릭 링크의 차이를 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>하드 링크</strong>는 같은 아이노드를 가리키는 또 다른 이름입니다. 원본과 완전히 동등하며, 아이노드의 링크 수가 0이 될 때(모든 이름 삭제) 실제 데이터가 삭제됩니다. 같은 파일시스템 안에서만 가능하고 디렉터리에는 만들 수 없습니다. <strong>심볼릭 링크</strong>는 대상의 <strong>경로 문자열</strong>을 담은 별도 파일(자체 아이노드 보유)로, 다른 파일시스템·디렉터리도 가리킬 수 있지만 원본이 삭제되면 깨진 링크(dangling)가 됩니다. 참고로 '파일 삭제(rm)'는 실제로는 unlink, 즉 이름-아이노드 연결 제거이며, 삭제된 파일을 프로세스가 열고 있으면 링크 수가 0이어도 닫을 때까지 공간이 반환되지 않습니다. 이는 "지웠는데 df 용량이 안 줄어요" 장애의 원인입니다.</p>
+<p><strong>관련 개념</strong>
+링크 카운트, unlink, 열린 파일과 공간 미반환(lsof +L1), ln vs ln -s</p>
+<hr />
+<h2>Q4. 저널링 파일 시스템은 왜 필요한가요? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+파일 작업 하나(예: 파일 추가)는 아이노드, 디렉터리, 빈 공간 비트맵 등 여러 블록 수정으로 이뤄지는데, 도중에 전원이 나가면 일부만 반영되어 파일시스템이 <strong>불일치</strong> 상태가 됩니다. 과거에는 부팅 시 fsck로 전체 디스크를 검사해 복구했지만 대용량 디스크에서는 수 시간이 걸립니다. <strong>저널링</strong>은 변경 내용을 먼저 저널(로그) 영역에 기록하고 커밋한 뒤 실제 위치에 반영합니다. 크래시가 나면 저널만 재생(redo)하거나 버려서 일관성을 빠르게 복구합니다. DB의 WAL(Write-Ahead Logging)과 같은 원리입니다. ext4는 기본으로 메타데이터만 저널링(ordered 모드)합니다.</p>
+<p><strong>관련 개념</strong>
+크래시 일관성, fsck, 저널 재생, WAL, ext4 저널 모드(journal/ordered/writeback)</p>
+<hr />
+<h2>Q5. 파일 할당 방식(연속, 연결, 인덱스)을 비교하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>연속 할당</strong>은 파일을 연속 블록에 저장합니다. 순차·직접 접근 모두 빠르지만 외부 단편화와 파일 확장 곤란이 문제입니다(CD-ROM 등에 적합). <strong>연결 할당</strong>은 각 블록이 다음 블록 포인터를 가집니다. 단편화가 없고 확장이 자유롭지만 직접 접근이 O(n)이고 포인터 하나만 깨져도 이후를 잃습니다. FAT는 포인터를 별도 테이블로 모아 이를 개선한 변형입니다. <strong>인덱스 할당</strong>은 블록 위치들을 인덱스 블록에 모아 저장해 직접 접근이 빠르며, 유닉스 아이노드의 직접/간접 포인터가 이 방식입니다(대용량은 다중 간접 블록으로 확장). 현대 파일시스템(ext4, XFS)은 연속된 블록 구간을 (시작, 길이)로 표현하는 <strong>익스텐트</strong>로 인덱스 방식의 메타데이터 부담을 줄입니다.</p>
+<p><strong>관련 개념</strong>
+외부 단편화, FAT, 아이노드 간접 블록, 익스텐트</p>
+<hr />
+<h2>Q6. 버퍼드 I/O와 다이렉트 I/O, 동기와 비동기 I/O를 구분해 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+<strong>버퍼드 I/O</strong>(기본값)는 페이지 캐시를 경유해 읽기 캐싱과 쓰기 지연(writeback)의 이득을 얻습니다. <strong>다이렉트 I/O</strong>(O_DIRECT)는 페이지 캐시를 우회해 사용자 버퍼와 디스크가 직접 데이터를 주고받으며, 자체 캐시를 가진 DB(오라클, MySQL InnoDB)가 이중 캐싱을 피하려 사용합니다. 별개 축으로 <strong>동기 I/O</strong>는 완료까지 호출 스레드가 대기하고(블로킹), <strong>비동기 I/O</strong>는 요청만 걸어두고 완료를 나중에 통지받습니다(리눅스 AIO, 최신 io_uring). 고성능 서버는 논블로킹 소켓+epoll(이벤트 기반) 또는 io_uring으로 적은 스레드로 많은 I/O를 처리합니다.</p>
+<p><strong>관련 개념</strong>
+페이지 캐시, O_DIRECT, fsync(내구성 보장), epoll, io_uring</p>
+<hr />
+<h2>Q7. RAID 레벨(0, 1, 5, 6, 10)을 비교 설명하세요. <span class="stars">★★★</span></h2>
+<p><strong>답안</strong>
+<strong>RAID 0(스트라이핑)</strong>: 데이터를 여러 디스크에 분산해 성능·용량 최대, 중복성 없음(디스크 1개 고장=전체 손실). <strong>RAID 1(미러링)</strong>: 동일 데이터를 복제해 안정성 높지만 용량 효율 50%. <strong>RAID 5</strong>: 블록 스트라이핑+분산 패리티로 디스크 1개 고장 허용, 용량 효율 (n−1)/n, 쓰기 시 패리티 계산 오버헤드와 재빌드 중 추가 고장 위험이 단점. <strong>RAID 6</strong>: 패리티 2중으로 2개 고장 허용, 대용량 디스크 시대에 재빌드 위험 때문에 5보다 선호됨. <strong>RAID 10(1+0)</strong>: 미러 쌍을 스트라이핑. 성능과 안정성이 좋아 DB 서버 정석이지만 용량 효율 50%. 면접에서는 "DB 서버에 어떤 RAID?"(→10 또는 6) 같은 선택 질문이 흔합니다. RAID는 백업이 아니라는 점(삭제·랜섬웨어 못 막음)도 언급하면 좋습니다.</p>
+<p><strong>관련 개념</strong>
+스트라이핑/미러링/패리티, 재빌드 위험, 핫 스페어, RAID는 백업이 아님</p>
+<hr />
+<h2>Q8. 디스크 스케줄링 알고리즘(FCFS, SSTF, SCAN, C-SCAN)을 설명하세요. <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+HDD는 헤드 이동(seek)이 지배적 비용이므로 요청 순서를 재배열해 이동을 줄입니다. <strong>FCFS</strong>는 도착 순서대로 처리(공정하지만 비효율). <strong>SSTF</strong>는 현재 헤드에서 가장 가까운 요청부터 처리(효율적이나 먼 요청 기아 가능). <strong>SCAN(엘리베이터)</strong>은 헤드가 한쪽 끝까지 이동하며 경로상 요청을 처리하고 방향을 반전합니다. <strong>C-SCAN</strong>은 한 방향으로만 처리하고 끝에 도달하면 처음으로 복귀해 대기 시간이 더 균등합니다. 계산 문제(총 이동 거리)로 자주 출제됩니다. 참고로 SSD는 seek이 없어 이런 스케줄링이 무의미하며, 리눅스는 SSD에 noop/none 스케줄러를 씁니다.</p>
+<p><strong>관련 개념</strong>
+seek time, 엘리베이터 알고리즘, 이동 거리 계산, SSD와 스케줄러(none/mq-deadline)</p>
+<hr />
+<h2>Q9. SSD와 HDD의 차이가 OS 설계에 주는 영향은? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+SSD는 기계적 이동이 없어 임의 접근이 HDD보다 수백 배 빠르고 순차/임의 성능 격차가 작습니다. 다만 <strong>덮어쓰기가 불가능</strong>해 블록을 지우고 다시 써야 하며(erase-before-write), 쓰기 수명이 유한합니다. 이에 따라 ① 디스크 스케줄링 단순화(none), ② <strong>TRIM</strong> 명령으로 삭제된 블록을 SSD에 알려 가비지 컬렉션 효율화, ③ 컨트롤러의 웨어 레벨링으로 쓰기 분산, ④ 임의 I/O 회피를 전제로 한 알고리즘들(B-tree 최적화 등)의 재검토, ⑤ NVMe·io_uring 같은 고속 인터페이스 대응이 이뤄졌습니다. 인프라 관점에서는 IOPS/지연시간 프로파일이 달라 DB 스토리지 설계 기준이 달라집니다.</p>
+<p><strong>관련 개념</strong>
+erase-before-write, TRIM/discard, 웨어 레벨링, NVMe, IOPS</p>
+<hr />
+<h2>Q10. 리눅스에서 "모든 것이 파일이다"라는 말의 의미는? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+리눅스는 일반 파일뿐 아니라 디렉터리, 장치(/dev/sda), 파이프, 소켓, 커널 정보(/proc, /sys)까지 <strong>파일 디스크립터와 read/write 인터페이스로 통일</strong>해서 다룬다는 설계 철학입니다. 덕분에 같은 도구(cat, redirect, epoll)로 다양한 자원을 조작할 수 있습니다. 예로 /proc/cpuinfo로 CPU 정보를 읽고, /sys로 커널 파라미터를 조정하며, 소켓도 fd로 select/epoll에 넣습니다. 프로세스당 열 수 있는 fd 수에는 한계(ulimit -n)가 있어, 대량 커넥션 서버에서 "Too many open files" 장애의 원인이 됩니다. 이 역시 인프라 면접 단골입니다.</p>
+<p><strong>관련 개념</strong>
+파일 디스크립터, /proc, /sys, ulimit -n, Too many open files</p>
+<hr />
+<h2>Q11. fsync는 왜 필요하며, write만 하면 데이터가 안전하지 않은 이유는? <span class="stars">★★</span></h2>
+<p><strong>답안</strong>
+write()는 데이터를 커널의 페이지 캐시에 복사하면 성공을 반환할 뿐, 그 시점에 디스크에는 아직 없습니다(dirty page). 커널이 나중에 writeback하기 전 전원이 나가면 데이터가 유실됩니다. <strong>fsync()</strong>는 해당 파일의 더티 페이지와 메타데이터를 실제 저장 장치까지 내려쓰고 완료를 기다려 <strong>내구성(durability)</strong>을 보장합니다. DB가 트랜잭션 커밋 시 WAL에 fsync하는 이유이며, fsync 빈도는 내구성과 성능의 직접적 트레이드오프입니다(PostgreSQL synchronous_commit, MySQL innodb_flush_log_at_trx_commit). 디스크 자체 캐시까지 고려하면 배리어/FUA 플러시도 관련됩니다.</p>
+<p><strong>관련 개념</strong>
+페이지 캐시와 dirty page, 내구성, WAL+fsync, flush 설정 튜닝</p>
+<hr />
+<p class="backtop"><a href="#top">↑ 목차로</a></p>
+</section>
+
+</body>
+</html>
