@@ -9,15 +9,14 @@
 
 ## 시작하기
 
-[`cs-interview/index.html`](cs-interview/index.html)을 브라우저로 열면 전체 과목 목록에서 시작할 수 있습니다.
+[`index.html`](index.html)을 브라우저로 열면 전체 과목 목록에서 시작할 수 있습니다.
 과목별 목록(`index.html`)에서 단원별 문서로 이동하거나, 통합본(`*-all-in-one.html`) 한 파일로 전체를 볼 수 있습니다.
 
 ## 디렉토리 구조
 
 ```
 CS/
-├── cs-interview/          # 메인 인덱스 (과목 선택 페이지)
-│   └── index.html
+├── index.html             # 메인 인덱스 (과목 선택 페이지)
 ├── network-interview/     # 네트워크 (8개 유닛 · 104문항)
 │   ├── index.html                        # 단원 목록
 │   ├── network-interview-all-in-one.html # 통합본
